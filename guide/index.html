@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>가이드 — Portfolio Maker</title>
+  <meta name="description" content="포트폴리오 배포, 도메인 연결, 개발 환경 꾸미기까지 — Portfolio Maker 사용자를 위한 실전 가이드 모음." />
+  <link rel="stylesheet" href="../theme.css" />
+  <script>
+    /* 첫 칠 전에 저장된 모드를 입힙니다 — 안 그러면 라이트가 한 번 번쩍입니다. */
+    (function () {
+      try {
+        var t = localStorage.getItem('pb:guide-theme');
+        if (t === 'dark' || t === 'eye') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* 무시 — 기본 라이트 */ }
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: 'Pretendard', -apple-system, 'Segoe UI', 'Malgun Gothic', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    main { max-width: 720px; margin: 0 auto; padding: 48px 20px 80px; }
+    h1 { font-size: 28px; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .sub { color: var(--muted); margin-bottom: 36px; }
+    a.card { display: block; padding: 18px 20px; margin-bottom: 12px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: inherit; transition: border-color .15s; }
+    a.card:hover { border-color: var(--text); }
+    h2 { font-size: 15px; margin: 26px 0 10px; color: var(--muted); letter-spacing: 0.3px; }
+    h2:first-of-type { margin-top: 0; }
+    a.card b { display: block; font-size: 16px; margin-bottom: 4px; }
+    a.card span { font-size: 13.5px; color: var(--muted); }
+    .top { display: inline-block; margin-bottom: 28px; font-size: 13px; color: var(--muted); text-decoration: none; }
+    .top:hover { text-decoration: underline; }
+    footer { margin-top: 48px; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="top" href="../">← Portfolio Maker로 돌아가기</a>
+    <h1>가이드</h1>
+    <p class="sub">포트폴리오를 만들고, 공개하고, 더 나아지게 하는 법.</p>
+
+    <h2>만들기</h2>
+    <a class="card" href="./how-to.html">
+      <b>처음부터 배포까지 — 14단계 사용 가이드</b>
+      <span>이 도구가 처음이라면 여기부터. 틀 고르기 · 영역 다루기 · 파트 넣기 · 꾸미기 · 효과 · 내보내기까지 탭으로 하나씩. 파트 사전과 효과 사전도 함께 있습니다.</span>
+    </a>
+    <a class="card" href="../samples.html">
+      <b>예시 보기 — 이 도구로 만든 포트폴리오</b>
+      <span>실제로 만들어 배포한 사이트들입니다. 직군별로 어떤 결과물이 나오는지 직접 열어 볼 수 있습니다.</span>
+    </a>
+
+    <h2>공개하기</h2>
+    <a class="card" href="./deploy-github-pages.html">
+      <b>내보낸 포트폴리오를 인터넷에 무료로 공개하기</b>
+      <span>GitHub 가입부터 공개 스위치까지 단계별로. 폴더째 올려 404가 나는 것처럼 처음 하는 사람이 막히는 지점을 전부 짚습니다.</span>
+    </a>
+    <a class="card" href="./custom-domain.html">
+      <b>내 도메인 연결하기 — 내이름.com 주소 만들기</b>
+      <span>도메인 고르는 기준(갱신비·개인정보 보호)부터 DNS 레코드, GitHub 설정, 지우면 안 되는 파일까지.</span>
+    </a>
+
+    <footer>Portfolio Maker — 빌드 도구 없이 도는 3D 포트폴리오 제작기</footer>
+  </main>
+  <script src="../theme.js"></script>
+</body>
+</html>

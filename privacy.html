@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>개인정보처리방침 — Portfolio Maker</title>
+  <meta name="description" content="Portfolio Maker 개인정보처리방침 — 수집하지 않는 정보, 이용자 기기에 저장되는 정보, 제3자에게 전송되는 정보, 국외 이전 및 그 거부 방법을 규정합니다." />
+  <link rel="stylesheet" href="./theme.css" />
+  <script>
+    /* 첫 칠 전에 저장된 모드를 입힙니다 — 안 그러면 라이트가 한 번 번쩍입니다. */
+    (function () {
+      try {
+        var t = localStorage.getItem('pb:guide-theme');
+        if (t === 'dark' || t === 'eye') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* 무시 — 기본 라이트 */ }
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font: 15px/1.8 'Pretendard', -apple-system, 'Segoe UI', 'Malgun Gothic', system-ui, sans-serif;
+      word-break: keep-all; overflow-wrap: anywhere;
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 48px 20px 40px; }
+    .top { display: inline-block; margin-bottom: 28px; font-size: 13px; color: var(--muted); text-decoration: none; }
+    .top:hover { text-decoration: underline; }
+    h1 { font-size: 26px; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .lead { color: var(--muted); font-size: 13.5px; margin-bottom: 28px; }
+    h2 { font-size: 18px; margin: 30px 0 10px; }
+    p, li, td, th { font-size: 15px; }
+    ol, ul { padding-left: 22px; margin: 8px 0 16px; }
+    li { margin-bottom: 6px; }
+    code { background: var(--inset); padding: 1px 6px; border-radius: 4px; font-size: 13.5px; font-family: Consolas, monospace; }
+    a { color: var(--link); }
+    .table-wrap { overflow-x: auto; margin: 12px 0 18px; }
+    table { border-collapse: collapse; width: 100%; background: var(--panel-2); }
+    /*
+     * 국외이전 표만 여섯 칸입니다. 폰 폭에 그냥 맡기면 한 칸이 62px로 눌려
+     * 글자가 서너 자씩 끊깁니다. 최소 폭을 줘서 대신 옆으로 밀어 보게 합니다.
+     */
+    table.xfer { min-width: 660px; }
+    table.xfer td, table.xfer th { font-size: 13.5px; line-height: 1.6; }
+    th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+    th { background: var(--inset); font-size: 13.5px; }
+    .box {
+      background: var(--panel-2); border: 1px solid var(--line);
+      border-left: 3px solid var(--accent); border-radius: 4px;
+      padding: 12px 16px; margin: 16px 0; font-size: 14px;
+    }
+    .upd { margin-top: 32px; font-size: 12.5px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="top" href="./">&larr; Portfolio Maker로 돌아가기</a>
+    <h1>개인정보처리방침</h1>
+    <p class="lead">본 방침은 Portfolio Maker(이하 &ldquo;서비스&rdquo;)가 이용자의 정보를 어떻게 취급하는지, 어떤 정보가 외부로 전송되고 <b>어떤 정보가 전송되지 않는지</b>를 정합니다.</p>
+
+    <div class="box">
+      이용자가 작성한 포트폴리오의 문서·이미지·첨부 파일은 <b>운영자의 서버로 전송되지 않습니다.</b>
+      모든 데이터는 이용자의 브라우저 저장소(IndexedDB)에만 보관되며, 내보내기 또한 브라우저 내에서 처리됩니다.
+      운영자는 해당 내용을 열람할 수 없습니다.
+    </div>
+
+    <h2>제1조 (수집하는 개인정보)</h2>
+    <p>운영자는 이용자의 개인정보를 직접 수집하지 않습니다. 본 서비스는 회원가입 절차를 두지 않으며, 성명·이메일·연락처 등을 입력받는 항목이 없고, 이용자의 저작물을 보관하는 서버를 운영하지 않습니다.</p>
+
+    <h2>제2조 (이용자 기기에 저장되는 정보)</h2>
+    <p>다음 정보는 이용자의 기기 내에만 저장되며 운영자에게 전송되지 않습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>저장 위치</th><th>저장 항목</th><th>삭제 방법</th></tr>
+        <tr><td>IndexedDB</td><td>작업 중인 포트폴리오 문서, 올린 사진·글꼴·이력서 파일</td><td>브라우저 사이트 데이터 삭제</td></tr>
+        <tr><td>localStorage</td><td>화면 모드 및 부가 기능 설정. AI 기능을 이용하는 경우 이용자가 입력한 API 키</td><td>같음</td></tr>
+      </table>
+    </div>
+    <p>이용자가 브라우저의 사이트 데이터를 삭제하는 경우 <b>저장된 작업물도 함께 삭제됩니다.</b> 중요한 작업물은 <code>.pbproj</code> 파일로 내려받아 별도로 보관하시기 바랍니다.</p>
+
+    <h2>제3조 (제3자에 대한 정보 전송)</h2>
+    <p>서비스의 일부 기능을 이용하는 과정에서 다음 사업자에게 정보가 전송됩니다. 해당 전송은 운영자의 서버를 경유하지 않고 이용자의 브라우저에서 직접 이루어집니다.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>전송 대상</th><th>전송 항목</th><th>전송 시점</th></tr>
+        <tr><td><b>Google Analytics</b></td><td>방문 기록, 기기·브라우저 정보, 쿠키 식별자</td><td>항상</td></tr>
+        <tr><td><b>쿠팡파트너스</b></td><td>광고 노출·클릭 기록, 쿠키</td><td>광고가 표시될 때</td></tr>
+        <tr><td><b>Anthropic</b></td><td>AI 문구 제안 시 입력한 <b>직군·키워드</b>. API 키는 이용자의 브라우저에만 저장되며 운영자에게 전송되지 않습니다</td><td>AI 문구 제안 이용 시</td></tr>
+        <tr><td><b>Openverse</b></td><td>사진 <b>검색어</b></td><td>무료 사진 검색 이용 시</td></tr>
+        <tr><td><b>GitHub</b></td><td>접속 IP, 브라우저 정보</td><td><b>항상</b> — 본 서비스는 GitHub Pages에서 제공됩니다. 첫 화면의 예시 미리보기를 조회하는 경우에도 전송됩니다</td></tr>
+        <tr><td><b>jsDelivr</b></td><td>접속 IP (파일 수신 과정에서)</td><td>3D 모델 압축 기능 이용 시</td></tr>
+      </table>
+    </div>
+    <p>각 사업자의 정보 처리에 관한 사항은 해당 사업자의 방침에 따릅니다. 위 항목 중 <b>Anthropic·Openverse·jsDelivr</b>에 대한 전송은 해당 기능을 이용하지 않는 경우 발생하지 않습니다.</p>
+
+    <h2>제4조 (개인정보의 국외 이전)</h2>
+    <p>제3조의 전송 대상 중 다음 사업자는 국외에 소재합니다. 운영자는 이용자에 대한 서비스 제공에 필요한 범위에서 아래와 같이 정보를 국외로 전송하며, 「개인정보 보호법」 제28조의8 제1항 제3호에 따라 그 내용을 본 방침에 공개합니다.</p>
+    <div class="table-wrap">
+      <table class="xfer">
+        <tr><th>이전받는 자</th><th>국가</th><th>이전 항목</th><th>이전 시기 및 방법</th><th>이용 목적</th><th>보유·이용 기간</th></tr>
+        <tr>
+          <td><b>Google LLC</b><br /><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a></td>
+          <td>미국</td>
+          <td>쿠키 식별자, 접속 IP, 기기·브라우저 정보, 방문 기록</td>
+          <td>서비스 이용 시 이용자의 브라우저에서 네트워크를 통해 수시 전송</td>
+          <td>방문자 수 통계</td>
+          <td>Google Analytics의 데이터 보관 설정에 따름</td>
+        </tr>
+        <tr>
+          <td><b>GitHub, Inc.</b><br /><a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">개인정보처리방침</a></td>
+          <td>미국</td>
+          <td>접속 IP, 브라우저 정보</td>
+          <td>페이지 접속 시 수시 전송</td>
+          <td>웹사이트 호스팅</td>
+          <td>GitHub의 정책에 따름</td>
+        </tr>
+        <tr>
+          <td><b>Anthropic PBC</b><br /><a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">개인정보처리방침</a></td>
+          <td>미국</td>
+          <td>이용자가 입력한 직군·키워드</td>
+          <td>AI 문구 제안 이용 시 전송</td>
+          <td>문구 생성 결과 제공</td>
+          <td>Anthropic의 정책에 따름</td>
+        </tr>
+        <tr>
+          <td><b>Openverse</b> (WordPress Foundation)<br /><a href="https://wordpressfoundation.org/privacy/" target="_blank" rel="noopener">개인정보처리방침</a></td>
+          <td>미국</td>
+          <td>사진 검색어, 접속 IP</td>
+          <td>무료 사진 검색 이용 시 전송</td>
+          <td>검색 결과 제공</td>
+          <td>해당 사업자의 정책에 따름</td>
+        </tr>
+        <tr>
+          <td><b>jsDelivr</b> (콘텐츠 전송 네트워크)</td>
+          <td>국외 (전 세계 분산 서버)</td>
+          <td>접속 IP</td>
+          <td>3D 모델 압축 기능 이용 시 전송</td>
+          <td>기능 구동에 필요한 파일 전송</td>
+          <td>해당 사업자의 정책에 따름</td>
+        </tr>
+      </table>
+    </div>
+    <p>쿠팡 파트너스 광고를 게재하는 <b>쿠팡 주식회사</b>는 국내 사업자이므로 위 표에 포함되지 않습니다.</p>
+    <p><b>국외 이전을 거부하는 방법 및 절차</b>는 다음과 같습니다.</p>
+    <ol>
+      <li><b>Google</b> — 브라우저에 <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics 차단 부가기능</a>을 설치하거나 브라우저 설정에서 쿠키를 차단하면 전송되지 않습니다.</li>
+      <li><b>Anthropic·Openverse·jsDelivr</b> — 해당 기능(AI 문구 제안, 무료 사진 검색, 3D 모델 압축)을 이용하지 않으면 전송되지 않습니다.</li>
+      <li><b>GitHub</b> — 본 서비스가 GitHub Pages에서 제공되므로, 이 전송을 거부하려면 서비스 이용을 중단하는 방법 외에는 없습니다.</li>
+    </ol>
+    <p>제1호 및 제2호의 방법으로 거부하는 경우에도 <b>서비스의 나머지 기능은 정상적으로 이용할 수 있습니다.</b></p>
+
+    <h2>제5조 (쿠키 및 행태정보)</h2>
+    <p>쿠키는 웹사이트가 이용자의 브라우저에 저장하는 소량의 정보입니다. 본 서비스에서는 방문자 수 통계(Google Analytics)와 광고 게재(쿠팡 파트너스) 과정에서 쿠키가 사용됩니다.</p>
+    <p>운영자는 Google Analytics의 <b>광고 신호 및 광고 맞춤설정 기능을 사용하지 않도록 설정</b>하였습니다. 따라서 방문 기록이 맞춤형 광고를 위한 행태정보로 활용되지 않으며, 수집 범위는 방문자 수 집계에 한정됩니다.</p>
+    <p>이용자는 브라우저 설정을 통해 쿠키의 저장을 거부할 수 있습니다. 거부하는 경우에도 서비스의 기능은 정상적으로 이용할 수 있으며, 이용자가 작업 중인 내용에는 영향을 주지 않습니다.</p>
+
+    <h2>제6조 (만 14세 미만 이용자)</h2>
+    <p>운영자는 별도의 개인정보를 수집하지 않으므로 이용 연령을 제한하지 않습니다. 다만 서비스 화면에 광고가 표시되므로 만 14세 미만 이용자는 보호자의 지도 하에 이용할 것을 권장합니다.</p>
+
+    <h2>제7조 (정보주체의 권리)</h2>
+    <p>운영자가 보관하는 개인정보가 없으므로 열람·정정·삭제를 청구할 대상이 존재하지 않습니다. 이용자의 기기에 저장된 데이터는 이용자가 직접 언제든지 삭제할 수 있습니다.</p>
+
+    <h2>제8조 (문의)</h2>
+    <p>본 방침에 관한 문의는 <a href="./contact.html">문의</a> 페이지 또는 <a href="mailto:jwg135790@gmail.com">jwg135790@gmail.com</a>으로 접수할 수 있습니다.</p>
+
+    <h2>제9조 (방침의 변경)</h2>
+    <p>본 방침의 내용이 변경되는 경우 본 페이지에 반영하고 하단의 시행일을 갱신합니다.</p>
+
+    <p class="upd">시행일: 2026년 8월 7일 (직전 시행일: 2026년 8월 3일)</p>
+  </main>
+  <script src="./theme.js"></script>
+</body>
+</html>

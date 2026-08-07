@@ -1,0 +1,41 @@
+# 빌드 결과물을 GitHub Pages로 올립니다.
+#
+# 이 파일은 배포 저장소(PORTFOLIO_CREATE)의 .github/workflows/deploy.yml로
+# 복사됩니다 — deploy.sh가 dist를 조립할 때 함께 넣습니다.
+# 배포 저장소에는 소스가 없으므로 빌드 없이 내용을 그대로 올리기만 합니다.
+
+name: Deploy to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

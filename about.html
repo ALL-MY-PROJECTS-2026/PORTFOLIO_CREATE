@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>소개 — Portfolio Maker</title>
+  <meta name="description" content="Portfolio Maker는 코딩 없이 포트폴리오 사이트를 만들어 파일로 내려받는 무료 도구입니다. 만든 이유와 운영 방식을 밝힙니다." />
+  <link rel="stylesheet" href="./theme.css" />
+  <script>
+    /* 첫 칠 전에 저장된 모드를 입힙니다 — 안 그러면 라이트가 한 번 번쩍입니다. */
+    (function () {
+      try {
+        var t = localStorage.getItem('pb:guide-theme');
+        if (t === 'dark' || t === 'eye') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* 무시 — 기본 라이트 */ }
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font: 15px/1.8 'Pretendard', -apple-system, 'Segoe UI', 'Malgun Gothic', system-ui, sans-serif;
+      word-break: keep-all; overflow-wrap: anywhere;
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 48px 20px 40px; }
+    .top { display: inline-block; margin-bottom: 28px; font-size: 13px; color: var(--muted); text-decoration: none; }
+    .top:hover { text-decoration: underline; }
+    h1 { font-size: 26px; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .lead { color: var(--muted); font-size: 13.5px; margin-bottom: 28px; }
+    h2 { font-size: 18px; margin: 30px 0 10px; }
+    p, li, td, th { font-size: 15px; }
+    ol, ul { padding-left: 22px; margin: 8px 0 16px; }
+    li { margin-bottom: 6px; }
+    code { background: var(--inset); padding: 1px 6px; border-radius: 4px; font-size: 13.5px; font-family: Consolas, monospace; }
+    a { color: var(--link); }
+    .table-wrap { overflow-x: auto; margin: 12px 0 18px; }
+    table { border-collapse: collapse; width: 100%; background: var(--panel-2); }
+    th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+    th { background: var(--inset); font-size: 13.5px; }
+    .box {
+      background: var(--panel-2); border: 1px solid var(--line);
+      border-left: 3px solid var(--accent); border-radius: 4px;
+      padding: 12px 16px; margin: 16px 0; font-size: 14px;
+    }
+    .upd { margin-top: 32px; font-size: 12.5px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="top" href="./">&larr; Portfolio Maker로 돌아가기</a>
+    <h1>소개</h1>
+    <p class="lead">코딩 없이 포트폴리오 사이트를 만들고, 결과물을 파일로 가져가는 무료 도구입니다.</p>
+
+    <h2>무엇을 하는 도구인가</h2>
+    <p>화면에서 칸을 나누고 글을 채우면 <b>완성된 웹사이트 파일</b>이 나옵니다. HTML이나 CSS를 몰라도 됩니다. 받은 파일은 GitHub Pages 같은 무료 호스팅에 올려 바로 공개할 수 있습니다.</p>
+
+    <h2>왜 만들었나</h2>
+    <p>포트폴리오가 필요한 사람은 많은데, 그 앞에 놓인 문턱이 대부분 사람에게 너무 높습니다. 템플릿을 사면 고치는 법을 따로 배워야 하고, 웹 서비스에 만들면 <b>그 서비스를 떠나는 순간 사이트도 사라집니다.</b></p>
+    <p>이 도구는 그 반대로 만들었습니다. 결과물은 여러분의 파일이고, 이 사이트가 내일 문을 닫아도 이미 받아 둔 포트폴리오는 그대로 돌아갑니다.</p>
+
+    <h2>지켜온 원칙</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>원칙</th><th>실제로 어떻게</th></tr>
+        <tr><td><b>작업물은 여러분 것</b></td><td>만든 결과물의 저작권은 전적으로 여러분에게 있습니다. 상업적 이용을 포함해 제한이 없습니다.</td></tr>
+        <tr><td><b>서버에 올리지 않음</b></td><td>글·사진·이력서 파일은 <b>여러분 브라우저 안에만</b> 저장됩니다. 저희 서버로 전송되지 않습니다 — 애초에 그런 서버가 없습니다.</td></tr>
+        <tr><td><b>결과물에 광고 없음</b></td><td>내려받은 파일에는 광고도, 제휴 링크도, 저희 표시도 들어가지 않습니다. 여러분이 만든 것만 담깁니다.</td></tr>
+        <tr><td><b>가입 없음</b></td><td>계정을 만들지 않습니다. 열면 바로 씁니다.</td></tr>
+      </table>
+    </div>
+
+    <h2>어떻게 무료인가</h2>
+    <p>편집 화면 곳곳에 <b>광고와 제휴 링크</b>가 있습니다. 이것이 이 도구를 유지하는 유일한 수입입니다. 사용료를 받지 않는 대신 광고를 두었고, 대신 <b>여러분이 내려받는 결과물에는 절대 넣지 않는다</b>는 선을 지키고 있습니다.</p>
+    <p>제휴 링크를 통해 구매가 일어나면 저희에게 일정 수수료가 지급될 수 있습니다. 해당 링크에는 그 사실을 함께 표시합니다.</p>
+
+    <h2>처음이신가요</h2>
+    <p><a href="./guide/how-to.html">단계별 사용 가이드</a>가 시작부터 배포까지 14단계로 안내합니다. 파트 사전과 효과 사전도 함께 있습니다.</p>
+
+    <div class="box">
+      <b>만든 사람에게 하고 싶은 말이 있다면</b><br />
+      버그 제보든 기능 제안이든 <a href="./contact.html">문의</a>로 보내 주세요. 혼자 만들고 있어서 답이 늦을 수 있지만 전부 읽습니다.
+    </div>
+
+    <p class="upd">최종 수정일: 2026년 8월 2일</p>
+  </main>
+  <script src="./theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>단계별 사용 가이드 — Portfolio Maker</title>
+  <meta name="description" content="포트폴리오 빌더를 처음 쓰는 분을 위한 단계별 가이드 — 실제 화면 캡처와 함께 틀 고르기부터 내용 채우기, 꾸미기, 3D·효과, 내보내기, 무료 배포까지 8단계로 안내합니다." />
+  <link rel="stylesheet" href="../theme.css" />
+  <script>
+    /* 첫 칠 전에 저장된 모드를 입힙니다 — 안 그러면 라이트가 한 번 번쩍입니다. */
+    (function () {
+      try {
+        var t = localStorage.getItem('pb:guide-theme');
+        if (t === 'dark' || t === 'eye') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* 무시 — 기본 라이트 */ }
+    })();
+  </script>
+  <style>
+    /* 팔레트는 theme.css가 들고 있습니다 (라이트 · 다크 · 눈보호) */
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font: 14px/1.8 'Inter', -apple-system, 'Segoe UI', 'Malgun Gothic', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; word-break: keep-all; overflow-wrap: anywhere;
+    }
+    .topbar {
+      display: flex; align-items: center; gap: 14px;
+      padding: 10px 18px; background: var(--panel); border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .topbar b { font-size: 14px; }
+    .topbar b i { font-style: normal; color: var(--accent); }
+    .topbar .tag { font-size: 11px; color: var(--muted); background: var(--inset); padding: 2px 8px; border-radius: 999px; }
+    .topbar nav { margin-left: auto; display: flex; gap: 4px; }
+    .topbar nav a { font-size: 12.5px; color: var(--muted); text-decoration: none; padding: 5px 10px; border-radius: 7px; }
+    .topbar nav a:hover { background: var(--hover); color: var(--text); }
+    .topbar nav a.on { color: var(--accent); font-weight: 600; }
+
+    .guide { max-width: 860px; margin: 0 auto; padding: 26px 20px 90px; }
+    h1 { font-size: 23px; letter-spacing: -0.4px; margin-bottom: 4px; }
+    .lead { color: var(--muted); font-size: 13.5px; margin-bottom: 14px; }
+    h2 { font-size: 19px; margin: 4px 0 12px; }
+    h3 { font-size: 15.5px; margin: 26px 0 8px; }
+    p { margin: 8px 0; }
+    ul, ol { padding-left: 20px; margin: 8px 0; }
+    li { margin-bottom: 6px; }
+    b { color: var(--text); }
+    code {
+      background: var(--inset); border: 1px solid var(--line); border-radius: 6px;
+      padding: 1px 6px; font-size: 12.5px; font-family: 'Cascadia Code', Consolas, monospace;
+    }
+    a { color: var(--accent); }
+
+    /* 진행바 + 단계 탭 */
+    .progress { height: 3px; background: var(--inset); border-radius: 2px; overflow: hidden; margin: 14px 0 2px; }
+    .progress i { display: block; height: 100%; width: 12.5%; background: var(--accent); transition: width 0.25s; }
+    .tabs { display: flex; gap: 2px; overflow-x: auto; border-bottom: 1px solid var(--line); margin-bottom: 22px; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { height: 0; }
+    .tab {
+      flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 13px; background: none; border: 0; border-bottom: 2px solid transparent;
+      color: var(--muted); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.on { color: var(--accent); border-color: var(--accent); }
+    .tab .n {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--inset); font-size: 11px; font-weight: 700; color: var(--muted);
+    }
+    .tab.on .n { background: var(--accent); color: #fff; }
+
+    .panel { display: none; }
+    .panel.on { display: block; animation: fade 0.22s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 11px; padding: 15px 17px; margin: 13px 0; }
+    .do { border-left: 3px solid var(--accent); }
+    .do > b:first-child { display: block; margin-bottom: 6px; font-size: 13px; color: var(--accent); letter-spacing: 0.02em; }
+    .tip { background: var(--sel); border-radius: 10px; padding: 11px 14px; font-size: 13px; margin: 12px 0; }
+    .tip b:first-child { color: var(--accent); }
+    .warn { background: var(--danger-bg); border: 1px solid var(--danger); border-radius: 10px; padding: 11px 14px; font-size: 13px; margin: 12px 0; }
+    .kbd {
+      display: inline-block; padding: 1px 7px; border: 1px solid var(--line-strong);
+      border-bottom-width: 2px; border-radius: 6px; background: var(--panel-2); font-size: 12px; font-weight: 600;
+    }
+    .table-wrap { overflow-x: auto; margin: 12px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--inset); white-space: nowrap; }
+
+    .ui {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--panel-2); border: 1px solid var(--line); border-radius: 7px;
+      padding: 2px 9px; font-size: 12.5px; font-weight: 600;
+    }
+    .ui.acc { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* 화면 캡처 */
+    figure { margin: 14px 0; }
+    figure img {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line-strong); border-radius: 10px;
+      background: var(--panel-2);
+    }
+    figure.narrow img { max-width: 380px; margin: 0 auto; }
+    figure.mid img { max-width: 560px; margin: 0 auto; }
+    figcaption { text-align: center; font-size: 12.5px; color: var(--muted); margin-top: 7px; }
+
+    .step-nav { display: flex; justify-content: space-between; gap: 8px; margin-top: 28px; padding-top: 15px; border-top: 1px solid var(--line); }
+    .step-nav button {
+      background: var(--panel-2); border: 1px solid var(--line); color: var(--text);
+      border-radius: 9px; padding: 9px 15px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .step-nav button:hover { border-color: var(--accent); }
+    .step-nav button[disabled] { opacity: 0.35; cursor: default; }
+    .step-nav .next { background: var(--accent); color: #fff; border-color: var(--accent); }
+    footer { margin-top: 40px; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <b>Portfolio <i>Builder</i></b>
+    <span class="tag">단계별 사용 가이드</span>
+    <nav>
+      <a href="../app.html">빌더 열기</a>
+      <a href="./index.html">가이드 목록</a>
+      <a href="./how-to.html" class="on">사용 가이드</a>
+    </nav>
+  </header>
+
+  <div class="guide">
+    <h1>처음부터 배포까지, 14단계 사용 가이드</h1>
+    <p class="lead">포트폴리오 빌더를 처음 쓰는 분을 위한 안내서입니다. 실제 화면 캡처를 보면서 <b>탭을 1단계부터 12단계까지</b> 하나씩 따라 해 보세요. 13 · 14단계는 순서대로 읽는 곳이 아니라, <b>필요할 때 찾아보는 사전</b>입니다. 한 단계를 끝내고 빌더에서 직접 해 본 다음, 다음 단계로 넘어가면 됩니다.</p>
+
+    <div class="progress"><i id="bar"></i></div>
+    <div class="tabs" id="tabs" role="tablist">
+      <button class="tab" role="tab"><span class="n">1</span>시작하기</button>
+      <button class="tab" role="tab"><span class="n">2</span>화면 익히기</button>
+      <button class="tab" role="tab"><span class="n">3</span>틀 잡기</button>
+      <button class="tab" role="tab"><span class="n">4</span>영역 다루기</button>
+      <button class="tab" role="tab"><span class="n">5</span>파트 넣기</button>
+      <button class="tab" role="tab"><span class="n">6</span>내용 고치기</button>
+      <button class="tab" role="tab"><span class="n">7</span>배치 다듬기</button>
+      <button class="tab" role="tab"><span class="n">8</span>꾸미기</button>
+      <button class="tab" role="tab"><span class="n">9</span>효과 · 3D</button>
+      <button class="tab" role="tab"><span class="n">10</span>내보내기</button>
+      <button class="tab" role="tab"><span class="n">11</span>배포하기</button>
+      <button class="tab" role="tab"><span class="n">12</span>저장 · 팁</button>
+      <button class="tab" role="tab"><span class="n">13</span>파트 사전</button>
+      <button class="tab" role="tab"><span class="n">14</span>효과 사전</button>
+    </div>
+
+    <!-- ============ 1. 시작하기 ============ -->
+    <section class="panel">
+      <h2>1단계 · 시작하기 — 첫 화면에서 할 일</h2>
+      <p>빌더를 처음 열면 아래와 같은 <b>「포트폴리오 사이트 만들기」</b> 창이 나옵니다. 아무것도 없는 빈 화면에서 시작하지 않도록, 완성된 구조 하나를 먼저 골라 얹어 주는 화면입니다.</p>
+
+      <figure class="mid">
+        <img src="./img/welcome.png" alt="포트폴리오 사이트 만들기 첫 화면 — 이름·한 줄 소개 입력칸과 틀 10종 카드" />
+        <figcaption>처음 열면 나오는 화면. 이름을 넣고 틀 카드를 하나 누르면 바로 시작됩니다.</figcaption>
+      </figure>
+
+      <div class="card do">
+        <b>따라 하기</b>
+        <ol>
+          <li>왼쪽 <b>이름</b> 칸에 본인 이름을 적습니다 (예: 홍길동). 사이트 첫 화면의 인사말 &mdash; &ldquo;안녕하세요, 프론트엔드 개발자 홍길동입니다&rdquo; &mdash; 에 자동으로 들어갑니다.</li>
+          <li>오른쪽 <b>한 줄 소개 · 직함</b> 칸에 직함을 적습니다 (예: 프론트엔드 개발자).</li>
+          <li><b>틀 고르기</b>에서 카드 하나를 클릭합니다. 클릭하는 순간 그 구조로 사이트가 만들어집니다.</li>
+        </ol>
+      </div>
+
+      <h3>틀 10종, 무엇이 다른가요?</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>틀 이름</th><th>이런 분에게</th></tr>
+          <tr><td><b>풀페이지 섹션</b></td><td>가장 흔하고 무난한 형태. 위에서 아래로 한 섹션씩 스크롤됩니다. 뭘 고를지 모르겠다면 이것부터.</td></tr>
+          <tr><td><b>좌측 메뉴 고정</b></td><td>메뉴가 왼쪽에 늘 보입니다. 페이지가 많은 사이트에 좋습니다.</td></tr>
+          <tr><td><b>클래식 3분할</b></td><td>상단바 + 큰 첫 화면 + 3열 카드. 회사 소개 페이지 같은 안정적인 느낌.</td></tr>
+          <tr><td><b>히어로 + 4분할</b></td><td>큰 첫 화면 아래 4칸 요약. 보여줄 항목이 뚜렷이 4가지일 때.</td></tr>
+          <tr><td><b>얇은 세로바 / 비대칭 밴드 / 3단 분할</b></td><td>레이아웃에 개성을 주고 싶을 때. 디자인 감각을 어필하는 포트폴리오에 어울립니다.</td></tr>
+          <tr><td><b>오버레이 메뉴</b></td><td>햄버거 버튼을 누르면 전체 화면 메뉴가 덮이는 형태.</td></tr>
+          <tr><td><b>데스크톱 아이콘</b></td><td>운영체제 바탕화면을 흉내 낸 독특한 형태. 눈에 띄고 싶다면.</td></tr>
+          <tr><td><b>레이어 히어로</b></td><td>내비게이션 없이 첫 화면부터 콘텐츠가 겹겹이 쌓입니다.</td></tr>
+        </table>
+      </div>
+
+      <p class="tip"><b>고민된다면:</b> 아무거나 골라도 됩니다. 구조는 나중에 왼쪽 <b>1 틀</b> 단계에서 언제든 다시 바꿀 수 있고, 바꿔도 써 둔 글과 색은 유지됩니다. 완전히 백지에서 시작하고 싶을 때만 <span class="ui">빈 페이지로 시작하기</span>를 누르세요.</p>
+      <p class="tip"><b>이 창을 다시 보고 싶다면:</b> 주소 뒤에 <code>?welcome=1</code>을 붙여 접속하면 언제든 다시 열립니다.</p>
+    </section>
+
+    <!-- ============ 2. 화면 익히기 ============ -->
+    <section class="panel">
+      <h2>2단계 · 화면 익히기 — 어디에 무엇이 있나</h2>
+      <p>틀을 고르면 아래와 같은 편집 화면이 나옵니다. 크게 <b>왼쪽 패널 · 가운데 캔버스 · 오른쪽 편집 패널</b> 세 부분입니다.</p>
+
+      <figure>
+        <img src="./img/full-editor.png" alt="편집 화면 전체 — 왼쪽 단계 패널, 가운데 캔버스, 오른쪽 편집 패널" />
+        <figcaption>편집 화면 전체. 왼쪽에서 고르고, 가운데에서 확인하고, 오른쪽에서 고칩니다.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>구역</th><th>하는 일</th></tr>
+          <tr><td><b>왼쪽 패널</b></td><td>맨 위의 <span class="ui">1 틀</span> <span class="ui">2 내용</span> <span class="ui">3 꾸미기</span> <span class="ui">4 내보내기</span> 네 탭이 작업 순서입니다. 탭을 누르면 패널 내용이 그 단계에 맞게 바뀝니다.</td></tr>
+          <tr><td><b>가운데 캔버스</b></td><td>지금 만드는 사이트가 실제 모습 그대로 보입니다. 여기서 <b>영역(칸)을 클릭해서 선택</b>합니다.</td></tr>
+          <tr><td><b>오른쪽 편집 패널</b></td><td>캔버스에서 선택한 영역의 내용·모양을 고치는 곳입니다. 아무것도 선택하지 않으면 &ldquo;캔버스에서 영역을 클릭하세요&rdquo;라고 나옵니다.</td></tr>
+        </table>
+      </div>
+
+      <h3>상단 도구 막대</h3>
+      <figure>
+        <img src="./img/topbar.png" alt="상단 도구 막대 — 사이트 요약, 저장 상태, 화면 크기, 다크 모드, 되돌리기, 미리보기, 저장, 내보내기" />
+        <figcaption>상단 막대. 왼쪽은 문서 정보, 오른쪽은 도구 버튼들입니다.</figcaption>
+      </figure>
+      <ul>
+        <li><b>왼쪽</b> &mdash; 지금 문서의 요약(페이지 · 테마 · 글꼴 · 채운 영역 수)과 <b>저장됨</b> 표시. 작업은 이 브라우저에 자동 저장됩니다.</li>
+        <li><b>화면 크기 버튼(모니터 · 태블릿 · 폰 모양)</b> &mdash; 모바일에서 어떻게 보일지 캔버스 폭을 바꿔 미리 봅니다.</li>
+        <li><b>달 모양</b> &mdash; 편집 화면을 어둡게(다크 모드). 결과물 색과는 무관합니다.</li>
+        <li><b>되돌리기 / 다시하기(화살표)</b> &mdash; 실수했을 때 누르세요. 몇 단계든 되돌아갑니다.</li>
+        <li><b>눈 모양</b> &mdash; 편집 표시 없이 결과물만 미리보기.</li>
+        <li><b>디스크 모양</b> &mdash; 저장 · 불러오기 창 (8단계에서 자세히).</li>
+        <li><b>아래 화살표</b> &mdash; 내보내기 창 (6단계에서 자세히).</li>
+      </ul>
+
+      <p class="tip"><b>기억할 것 하나:</b> 이 화면에서 길을 잃으면 <b>왼쪽 위 네 개 탭</b>만 보세요. 1에서 4까지 순서대로 가면 완성됩니다.</p>
+    </section>
+
+    <!-- ============ 3. 틀 잡기 ============ -->
+    <section class="panel">
+      <h2>3단계 · 틀 잡기 — 페이지와 구조</h2>
+      <p>왼쪽 <span class="ui acc">1 틀</span> 탭에서 사이트의 뼈대를 정합니다. 패널이 아래처럼 바뀝니다.</p>
+
+      <figure class="narrow">
+        <img src="./img/panel-frame.png" alt="틀 탭 패널 — 페이지 목록과 템플릿 카드" />
+        <figcaption>1 틀 탭. 위는 페이지 목록, 아래는 이 페이지에 적용할 템플릿 카드입니다.</figcaption>
+      </figure>
+
+      <h3>페이지 — 사이트의 상단 메뉴가 됩니다</h3>
+      <div class="card do">
+        <b>따라 하기</b>
+        <ol>
+          <li><b>페이지</b> 목록을 봅니다. Home · Work · About · Contact처럼 한 줄에 하나씩 있고, <b>이 순서 그대로 사이트 상단 메뉴</b>가 됩니다.</li>
+          <li>페이지 이름을 클릭하면 그 페이지로 이동해 편집할 수 있습니다.</li>
+          <li>각 줄의 <b>위/아래 화살표</b>로 순서를 바꾸고, <b>연필</b>로 이름을 고치고, <b>&times;</b>로 지웁니다.</li>
+          <li>맨 아래 <span class="ui">+ 페이지 추가</span>로 새 페이지를 만듭니다.</li>
+        </ol>
+      </div>
+      <p class="warn"><b>첫 번째 페이지가 대문입니다.</b> 방문자가 주소로 들어오면 목록 맨 위 페이지(<code>index.html</code>)를 먼저 봅니다. 가장 보여주고 싶은 페이지를 맨 위에 두세요.</p>
+
+      <h3>템플릿 — 지금 페이지의 구조 바꾸기</h3>
+      <ul>
+        <li>패널 아래쪽 <b>템플릿</b> 카드를 누르면 <b>지금 보고 있는 페이지</b>의 구조와 파트 배치가 그 틀로 바뀝니다.</li>
+        <li>배경색·글꼴·이미 써 둔 글은 그대로 유지되므로, 여러 번 눌러 보면서 마음에 드는 구조를 찾아도 됩니다.</li>
+        <li>페이지마다 다른 템플릿을 써도 됩니다 &mdash; 예: Home은 히어로형, Work는 카드 그리드형.</li>
+      </ul>
+
+
+      <h3>템플릿 10종 &mdash; 무엇이 어떻게 나오나</h3>
+      <p>템플릿을 누르면 <b>칸 배치와 파트가 한꺼번에</b> 얹힙니다. 색과 글꼴은 건드리지 않으므로, 마음에 안 들면 다른 것을 눌러 몇 번이고 갈아 볼 수 있습니다.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>템플릿</th><th>들어오는 파트</th><th>화면에 나오는 모습</th></tr>
+          <tr><td><b>풀페이지 섹션</b></td><td>Nav · Hero · Section · Gallery · Footer</td><td>고정 메뉴 아래로 섹션이 <b>위에서 아래로 쭉</b> 쌓입니다. 가장 무난합니다 &mdash; 무엇을 고를지 모르겠다면 이것.</td></tr>
+          <tr><td><b>좌측 메뉴 고정</b></td><td>Aside · Hero · Gallery · Footer</td><td>왼쪽 기둥에 사진과 메뉴가 <b>붙박이로</b> 남고 오른쪽 본문만 스크롤됩니다.</td></tr>
+          <tr><td><b>클래식 3분할</b></td><td>Header · Hero · Section ×3 · Footer</td><td>상단바 + 큰 첫 화면 + <b>3열 카드</b>. 회사 소개 페이지 같은 안정적인 인상.</td></tr>
+          <tr><td><b>히어로 + 4분할</b></td><td>Nav · Hero · Section ×4</td><td>큰 첫 화면 아래 <b>4칸이 나란히</b>. 보여줄 갈래가 넷으로 딱 떨어질 때.</td></tr>
+          <tr><td><b>얇은 세로바</b></td><td>Nav · Hero · Gallery · Footer</td><td>왼쪽 끝에 <b>아주 좁은 세로 바</b>만 두고 본문이 폭을 거의 다 씁니다.</td></tr>
+          <tr><td><b>오버레이 메뉴</b></td><td>Top Header · Hero · Gallery · Footer</td><td>얇은 상단 바에 메뉴만 두고 <b>첫 화면이 화면을 꽉</b> 채웁니다.</td></tr>
+          <tr><td><b>데스크톱 아이콘</b></td><td>Top Header · Main · Footer</td><td>맨 위 상태바와 <b>아이콘 격자</b>, 맨 아래 독. 운영체제 바탕화면을 흉내 냅니다 &mdash; 개성이 강한 대신 호불호가 갈립니다.</td></tr>
+          <tr><td><b>3단 분할</b></td><td>Aside · Hero · Gallery · Section · Footer</td><td>양옆에 보조 영역, 가운데가 본문. <b>정보가 많을 때</b> 씁니다.</td></tr>
+          <tr><td><b>레이어 히어로</b></td><td>Hero · Section · Gallery · Footer</td><td>상단 바 없이 <b>첫 화면부터 시작</b>합니다. 패럴랙스 효과와 잘 맞습니다.</td></tr>
+          <tr><td><b>비대칭 밴드</b></td><td>Nav · Hero · Section ×2 · Gallery · Footer</td><td>넓은 칸과 좁은 칸을 <b>위아래로 엇갈리게</b> 둡니다. 단조로움이 덜합니다.</td></tr>
+        </table>
+      </div>
+      <p class="warn"><b>템플릿을 바꾸면 칸 배치가 갈아엎어집니다.</b> 써 둔 글은 같은 이름의 칸에 남지만, 칸 수가 다르면 갈 곳이 없는 내용은 사라집니다. 글을 많이 쓴 뒤에는 <b>Ctrl+Z</b>로 되돌릴 수 있다는 것을 기억하고 바꾸세요.</p>
+
+      <h3>사이트 구성 &mdash; 한 페이지인가, 여러 페이지인가</h3>
+      <p><span class="ui acc">1 틀</span> 탭 맨 위에서 고릅니다. <b>결과물의 파일 개수와 메뉴 동작이 통째로 달라지는</b> 선택이라 먼저 정하는 편이 좋습니다.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>한 페이지 (퀵메뉴)</th><th>여러 페이지</th></tr>
+          <tr><td><b>메뉴를 누르면</b></td><td>같은 문서 안에서 그 위치로 <b>스크롤</b>됩니다</td><td>다른 <b>파일로 이동</b>합니다</td></tr>
+          <tr><td><b>결과물 파일</b></td><td><code>index.html</code> 하나</td><td>페이지마다 <code>.html</code> 하나씩</td></tr>
+          <tr><td><b>어울리는 경우</b></td><td>내용이 많지 않고 한 번에 훑게 하고 싶을 때. 요즘 포트폴리오의 기본</td><td>프로젝트가 많아 갈래별로 나눠 보여줘야 할 때</td></tr>
+          <tr><td><b>섹션 스냅</b></td><td>쓸 수 있습니다</td><td>의미가 없습니다</td></tr>
+        </table>
+      </div>
+      <p class="tip"><b>메뉴 동기화</b>는 기본으로 켜져 있습니다. 한 페이지에서 메뉴 파트를 고치면 같은 파트를 쓰는 <b>다른 페이지에도 함께</b> 적용됩니다 &mdash; 페이지마다 따로 고치다 메뉴가 어긋나는 일을 막아 줍니다.</p>
+
+      <h3>사이트 정보 — 탭 제목과 공유 미리보기</h3>
+      <ul>
+        <li>패널의 <b>사이트 정보</b> 칸에서 브라우저 <b>탭 제목</b>과, 링크를 카톡·슬랙에 붙였을 때 나오는 <b>제목·설명</b>을 정합니다.</li>
+        <li>비워 두면 첫 페이지 이름이 대신 쓰입니다.</li>
+      </ul>
+    </section>
+
+    <!-- ============ 4. 영역 다루기 (신설) ============ -->
+    <section class="panel">
+      <h2>4단계 · 영역 다루기 — 칸을 만들고, 지우고, 늘리기</h2>
+      <p>파트를 넣기 전에 <b>칸(영역)부터 원하는 모양으로</b> 만들어 둡니다. 템플릿이 준 칸을 그대로 써도 되지만, 칸을 더 넣거나 빼는 방법을 알면 원하는 구성을 훨씬 자유롭게 만들 수 있습니다.</p>
+
+      <figure>
+        <img src="./img/region-select.png" alt="캔버스에서 영역 하나가 선택된 모습 — 테두리가 강조되고 네 변에 + 버튼이 보입니다" />
+        <figcaption>영역 위에 마우스를 올리면 테두리 <b>네 변 한가운데에 +</b> 가, 빈 영역이면 오른쪽 위에 <b>&times;</b> 가 나타납니다.</figcaption>
+      </figure>
+
+      <h3>1) 영역 선택하기</h3>
+      <ul>
+        <li>캔버스에서 아무 칸이나 <b>클릭</b>하면 선택됩니다. 오른쪽에 그 영역의 편집 패널이 열립니다.</li>
+        <li>선택을 풀려면 영역 밖 빈 곳을 클릭합니다.</li>
+      </ul>
+
+      <h3>2) + 로 칸 늘리기</h3>
+      <p>영역 테두리 <b>네 변 한가운데의 +</b> 버튼이 그 방향으로 칸을 넣어 줍니다. 마우스를 영역 위에 올려야 보입니다.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>누르는 곳</th><th>결과</th></tr>
+          <tr><td><b>위쪽 +</b></td><td>이 영역 <b>바로 위</b>에 새 행이 들어갑니다.</td></tr>
+          <tr><td><b>아래쪽 +</b></td><td>이 영역 <b>바로 아래</b>에 새 행이 들어갑니다.</td></tr>
+          <tr><td><b>왼쪽 / 오른쪽 +</b></td><td>같은 행에 칸을 하나 더 넣어 좌우로 나눕니다.</td></tr>
+        </table>
+      </div>
+
+      <figure>
+        <img src="./img/region-plus.png" alt="영역 아래쪽 + 를 눌러 바로 아래에 새 행이 생긴 모습" />
+        <figcaption>가운데 영역의 아래쪽 + 를 누른 결과. 맨 아래가 아니라 <b>그 영역 바로 아래</b>에 생깁니다.</figcaption>
+      </figure>
+
+      <p class="tip"><b>좌우 + 가 안 보인다면</b> 그 행이 이미 꽉 찼거나(한 행에 6칸이 최대), 템플릿이 정한 뼈대 칸이라 좌우로 못 늘리는 자리입니다. 위/아래 + 로 새 행을 만든 다음 그 행에서 좌우로 나누면 됩니다.</p>
+
+      <h3>3) &times; 로 안 쓰는 칸 지우기</h3>
+      <p>파트를 넣지 않은 <b>빈 영역</b>에는 오른쪽 위에 <b>&times;</b> 가 나타납니다. 누르면 그 칸이 사라지고 남은 칸들이 자리를 채웁니다.</p>
+      <figure class="mid">
+        <img src="./img/region-del.png" alt="빈 영역 오른쪽 위의 X 버튼" />
+        <figcaption>빈 영역에만 나오는 &times;. 실수로 지웠다면 <b>Ctrl+Z</b> 로 되돌립니다.</figcaption>
+      </figure>
+
+      <h3>4) 손잡이로 크기 바꾸기</h3>
+      <p>영역을 선택하면 <b>오른쪽 아래 모서리에 손잡이</b>가 생깁니다. 끌어서 가로·세로를 바꿉니다.</p>
+      <figure class="mid">
+        <img src="./img/region-resize.png" alt="영역 오른쪽 아래의 크기 조절 손잡이" />
+        <figcaption>대각선으로 끌면 가로·세로가 함께, 옆으로만 끌면 가로만 바뀝니다.</figcaption>
+      </figure>
+      <ul>
+        <li><b>가로를 늘리면</b> 같은 행의 옆 칸이 그만큼 자동으로 좁아집니다. 행 전체 폭은 그대로입니다.</li>
+        <li><b>가로를 줄이면</b> 남은 자리가 여백으로 남습니다. 이 여백을 어떻게 쓸지는 <b>7단계 배치 다듬기</b>에서 정합니다.</li>
+        <li><b>세로는 내용보다 작게 줄어들지 않습니다.</b> 글이나 사진이 잘리는 것을 막기 위해서입니다. 더 줄이고 싶다면 안의 내용(글자 크기·여백)을 먼저 줄이세요.</li>
+      </ul>
+
+      <p class="warn"><b>되돌리기를 기억하세요.</b> 이 단계의 모든 동작은 <b>Ctrl+Z</b> 로 되돌아갑니다. 마음껏 눌러 보세요.</p>
+    </section>
+
+    <!-- ============ 5. 파트 넣기 ============ -->
+    <section class="panel">
+      <h2>5단계 · 파트 넣기 — 칸에 부품 끼우기</h2>
+      <p>이제 <span class="ui acc">2 내용</span> 탭으로 갑니다. 이 빌더의 핵심 개념은 이것 하나입니다:</p>
+      <div class="card"><p style="text-align:center"><b>페이지는 여러 개의 영역(칸)으로 나뉘어 있고,<br />각 영역에 &ldquo;파트&rdquo;(부품)를 골라 끼운다.</b></p></div>
+
+      <h3>파트는 다섯 묶음으로 나뉘어 있습니다</h3>
+      <figure class="narrow">
+        <img src="./img/parts-groups.png" alt="영역 파트 목록 — 머리 · 본문 · 배너 · 마무리 · 3D 다섯 묶음" />
+        <figcaption>파트 16종이 쓰임새별로 다섯 묶음으로 정리돼 있습니다.</figcaption>
+      </figure>
+      <div class="table-wrap">
+        <table>
+          <tr><th>묶음</th><th>들어 있는 파트</th><th>쓰는 자리</th></tr>
+          <tr><td><b>머리</b></td><td>Top Header · Nav · Header</td><td>페이지 맨 위 메뉴</td></tr>
+          <tr><td><b>본문</b></td><td>Hero · Aside · Main · Section · Gallery</td><td>실제 내용이 들어가는 대부분의 칸</td></tr>
+          <tr><td><b>배너</b></td><td>Cover · Marquee · CTA · Slider</td><td>시선을 끄는 큰 띠·강조 구역</td></tr>
+          <tr><td><b>마무리</b></td><td>Contact · Links · Footer</td><td>연락처와 페이지 하단</td></tr>
+          <tr><td><b>3D</b></td><td>3D Model</td><td>모델 뷰어 (9단계에서 다룹니다)</td></tr>
+        </table>
+      </div>
+
+      <h3>넣는 방법</h3>
+      <figure class="narrow">
+        <img src="./img/panel-parts.png" alt="영역 파트 목록 — Top Header, Nav, Header, Hero, Aside, Main, Section, Gallery, 3D Model, Contact" />
+        <figcaption>2 내용 탭의 영역 파트 목록. 선택한 영역에 이 중 하나가 들어갑니다.</figcaption>
+      </figure>
+      <p>영역을 선택한 상태에서 왼쪽 <b>영역 파트</b> 목록을 누르면 그 파트가 영역에 들어갑니다. 자주 쓰는 파트:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>파트</th><th>용도</th></tr>
+          <tr><td><b>Hero</b></td><td>첫 화면 인사말. 큰 제목 + 소개 문장 + 버튼(이력서 보기 등). 대부분 맨 위 영역에 넣습니다.</td></tr>
+          <tr><td><b>Nav / Top Header / Header</b></td><td>상단 메뉴. Nav는 메뉴만, Top Header는 로고+메뉴, Header는 로고+메뉴+버튼까지.</td></tr>
+          <tr><td><b>Section</b></td><td>제목 + 본문 글. 소개, 경력, 기술 스택 등 일반 내용은 전부 이걸로.</td></tr>
+          <tr><td><b>Gallery</b></td><td>작업물 카드 그리드. 프로젝트 목록에 쓰며, 카드마다 사진·제목·설명·링크를 넣습니다.</td></tr>
+          <tr><td><b>3D Model</b></td><td><code>.glb</code> 3D 모델 뷰어. 9단계에서 자세히 다룹니다.</td></tr>
+          <tr><td><b>Contact / Links / Footer</b></td><td>연락처(이메일 · 깃허브 · 링크드인), 링크 모음, 페이지 하단 마무리.</td></tr>
+          <tr><td><b>Cover</b></td><td>배경 사진 위에 큰 문구를 얹은 표지. 페이지 첫인상을 강하게 줄 때.</td></tr>
+          <tr><td><b>Marquee</b></td><td>글자가 옆으로 흘러가는 띠. 기술 스택이나 키워드를 나열할 때 좋습니다.</td></tr>
+          <tr><td><b>CTA</b></td><td>&ldquo;연락 주세요&rdquo; 같은 행동 유도 구역. 버튼이 함께 들어갑니다.</td></tr>
+          <tr><td><b>Slider</b></td><td>여러 장을 좌우로 넘겨 보는 슬라이드.</td></tr>
+        </table>
+      </div>
+
+      <p class="tip"><b>파트를 바꾸거나 비우려면:</b> 왼쪽 목록에서 다른 파트를 누르면 교체되고, 편집 패널 상단의 <b>&times;</b> 를 누르면 칸이 다시 빈 상태가 됩니다.</p>
+    </section>
+
+    <!-- ============ 6. 내용 고치기 ============ -->
+    <section class="panel">
+      <h2>6단계 · 내용 고치기 — 오른쪽 편집 패널</h2>
+      <p>영역을 선택하면 오른쪽에 <b>그 파트 전용 편집 항목</b>이 열립니다. 여기서 글과 세부 모양을 고칩니다.</p>
+
+      <h3>기본 사용법</h3>
+      <figure class="narrow">
+        <img src="./img/inspector-edit.png" alt="오른쪽 편집 패널 — 선택한 Nav 파트의 정렬, 간격, 글자 설정" />
+        <figcaption>영역을 선택하면 오른쪽에 그 파트 전용 편집 항목이 나옵니다 (그림은 Nav 파트의 예).</figcaption>
+      </figure>
+      <ul>
+        <li>글 내용은 입력칸에 쓰는 대로 캔버스에 <b>즉시</b> 반영됩니다.</li>
+        <li>파트마다 항목이 다릅니다 &mdash; Hero는 인사말·버튼, Gallery는 카드 추가/삭제, Nav는 정렬·간격 등.</li>
+        <li>아래쪽 <b>글자</b> 묶음에서 이 영역만의 글꼴·크기·색을 바꿀 수 있습니다. 기본값은 <b>상속</b>(전체 설정을 따름)입니다.</li>
+        <li>이것저것 바꾸다 엉켰으면 맨 아래 <span class="ui">전역값으로 되돌리기</span> 한 번으로 초기화됩니다.</li>
+        <li>파트를 다른 것으로 바꾸려면 왼쪽 목록에서 다른 파트를 누르고, 비우려면 편집 패널 상단의 <b>&times;</b>를 누릅니다.</li>
+      </ul>
+
+      <p class="tip"><b>사진 넣기:</b> Gallery 카드나 배경의 사진 칸은 <b>파일 선택</b>으로 내 컴퓨터의 이미지를 넣습니다. 넣은 사진은 결과물에 함께 담깁니다.</p>
+
+      <h3>모르는 항목은 <b>?</b> 를 누르세요</h3>
+      <p>항목 이름 옆의 작은 <b>?</b> 를 누르면 &ldquo;이게 무엇이고 언제 쓰는지&rdquo; 설명이 말풍선으로 열립니다. 설명문을 화면에 늘 깔아 두지 않고 <b>필요할 때만</b> 꺼내 보도록 한 것입니다.</p>
+      <figure class="narrow">
+        <img src="./img/inspector-why.png" alt="항목 옆 물음표를 눌러 설명 말풍선이 열린 모습" />
+        <figcaption>? 를 누르면 그 항목의 설명이 열립니다. 다시 누르면 닫힙니다.</figcaption>
+      </figure>
+
+      <h3>묶음은 접었다 펼 수 있습니다</h3>
+      <p>편집 항목이 많은 파트는 <b>묶음별로 접혀</b> 있습니다. 묶음 제목을 누르면 펼쳐집니다. 지금 고칠 것만 펴 두면 패널이 짧아져 찾기 쉽습니다.</p>
+      <figure class="narrow">
+        <img src="./img/inspector-sections.png" alt="오른쪽 패널의 접힌 묶음들" />
+        <figcaption>필요한 묶음만 펴서 씁니다.</figcaption>
+      </figure>
+
+      <h3>항목이 더 있습니다 — 부가 기능</h3>
+      <p>상단 도구 막대의 <b>부가 기능</b>을 켜면 평소에 감춰 둔 <b>세밀한 조정 항목</b>들이 함께 나타납니다. 처음에는 꺼 둔 채로 쓰다가, 익숙해지면 켜 보세요.</p>
+      <p class="tip"><b>이것저것 바꾸다 엉켰다면</b> 패널 맨 아래 <span class="ui">전역값으로 되돌리기</span> 한 번으로 그 영역 설정이 초기화됩니다. 문서 전체는 <b>Ctrl+Z</b> 입니다.</p>
+    </section>
+
+    <!-- ============ 7. 배치 다듬기 (신설) ============ -->
+    <section class="panel">
+      <h2>7단계 · 배치 다듬기 — 여백과 자유 배치</h2>
+      <p>4단계에서 칸 크기를 줄이면 <b>남은 여백</b>이 생깁니다. 그 여백을 어떻게 나눌지, 그리고 칸 안의 항목을 손으로 옮길지를 여기서 정합니다. 건너뛰어도 사이트는 완성됩니다 &mdash; 더 다듬고 싶을 때 오세요.</p>
+
+      <h3>1) 행 정렬 &mdash; 여백을 어디에 둘까</h3>
+      <p>한 행에 칸이 여럿이고 여백이 남을 때, 그 여백을 어느 쪽에 몰지 고릅니다.</p>
+      <figure class="narrow">
+        <img src="./img/row-align.png" alt="행 정렬 선택 항목 — 왼쪽 · 가운데 · 오른쪽 · 양끝 · 고르게 · 자유" />
+        <figcaption>오른쪽 패널의 <b>행 정렬</b>. 같은 행의 칸들에 한꺼번에 적용됩니다.</figcaption>
+      </figure>
+      <div class="table-wrap">
+        <table>
+          <tr><th>고르는 값</th><th>결과</th></tr>
+          <tr><td><b>왼쪽 / 가운데 / 오른쪽</b></td><td>칸들을 그쪽으로 몰고 여백을 반대편에 둡니다.</td></tr>
+          <tr><td><b>양끝</b></td><td>첫 칸은 왼쪽 끝, 마지막 칸은 오른쪽 끝에 붙이고 여백을 사이에 나눕니다.</td></tr>
+          <tr><td><b>고르게</b></td><td>칸 사이와 양 끝에 여백을 같은 크기로 나눕니다.</td></tr>
+          <tr><td><b>자유</b></td><td>칸을 손으로 끌어 원하는 가로 위치에 둡니다.</td></tr>
+        </table>
+      </div>
+
+      <h3>2) 영역 안 자유 배치 &mdash; 항목을 손으로 옮기기</h3>
+      <p>오른쪽 패널의 <b>영역 안 자유 배치(항목 끌기)</b> 를 켜면, 그 칸 안의 제목·글·버튼을 <b>마우스로 끌어</b> 원하는 자리에 놓을 수 있습니다.</p>
+      <figure class="mid">
+        <img src="./img/free-items.png" alt="자유 배치를 켜고 칸 안의 항목을 끌어 옮기는 모습" />
+        <figcaption>켜면 항목마다 끌 수 있는 상태가 됩니다. 끄면 원래 흐름 배치로 돌아옵니다.</figcaption>
+      </figure>
+      <ul>
+        <li>켜는 순간 항목들이 <b>지금 있던 자리 그대로</b> 고정됩니다. 위로 튀어 오르지 않습니다.</li>
+        <li>3D Model을 뺀 <b>모든 파트</b>에서 쓸 수 있습니다.</li>
+        <li>폰 화면에서는 자유 배치가 자동으로 풀리고 위아래로 쌓입니다 &mdash; 좁은 화면에서 글이 겹치지 않게 하기 위해서입니다.</li>
+      </ul>
+
+      <p class="warn"><b>자유 배치는 마지막에 쓰세요.</b> 글을 다 쓰고 크기를 정한 다음에 위치를 잡아야 두 번 일하지 않습니다.</p>
+    </section>
+
+    <!-- ============ 8. 꾸미기 ============ -->
+    <section class="panel">
+      <h2>8단계 · 꾸미기 &mdash; 색 · 글꼴 · 배경</h2>
+      <p><span class="ui acc">3 꾸미기</span> 탭은 사이트의 분위기(색 · 글꼴 · 배경 · 움직임)를 정하는 곳입니다.</p>
+
+      <figure class="narrow">
+        <img src="./img/panel-style.png" alt="꾸미기 탭 패널 — 등장 효과, 인터랙션, 사이트 배경 설정" />
+        <figcaption>3 꾸미기 탭. 위에서부터 등장 효과 · 인터랙션 · 사이트 배경 순으로 이어집니다.</figcaption>
+      </figure>
+
+
+      <h3>테마 18종 &mdash; 색 한 벌을 통째로</h3>
+      <p>테마를 누르면 배경 · 글자 · 강조색이 <b>한 벌로</b> 바뀝니다. 색을 하나씩 고를 필요가 없게 미리 맞춰 둔 조합입니다.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>결</th><th>테마</th><th>인상</th></tr>
+          <tr><td><b>밝은</b></td><td>페이퍼 · 아틱 · 크림 · 아이보리 블랙 · 민트 · 세이지</td><td>깔끔하고 읽기 편합니다. <b>어떤 직군에나 무난</b>합니다.</td></tr>
+          <tr><td><b>어두운</b></td><td>미드나잇 · 카본 · 슬레이트 · 오션 · 포레스트</td><td>작업물 사진이 도드라집니다. 개발 · 3D · 사진 쪽에 잘 맞습니다.</td></tr>
+          <tr><td><b>색이 강한</b></td><td>선셋 · 버건디 · 그레이프 · 네온 · 로즈 · 라벤더 · 모카</td><td>개성이 뚜렷합니다. 디자인 · 브랜드 쪽. 작업물 색과 부딪히지 않는지 보세요.</td></tr>
+        </table>
+      </div>
+
+      <h3>글꼴 10종</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>글꼴</th><th>인상과 쓰임</th></tr>
+          <tr><td><b>모던 산세리프</b></td><td>기본값. 가장 무난하고 읽기 좋습니다.</td></tr>
+          <tr><td><b>초대형 타이틀</b></td><td>제목이 아주 큽니다. 작업물이 적어도 <b>첫인상이 강해집니다</b>.</td></tr>
+          <tr><td><b>세리프</b> · <b>Instrument Serif</b> · <b>Fraunces</b></td><td>붓 자국이 있는 글꼴. 편집 · 브랜드 · 사진 쪽의 차분한 인상.</td></tr>
+          <tr><td><b>모노스페이스</b></td><td>글자 폭이 같습니다. 개발자 포트폴리오의 정석.</td></tr>
+          <tr><td><b>Geist</b> · <b>Manrope</b> · <b>DM Sans</b></td><td>산세리프의 결이 조금씩 다릅니다. 취향으로 고르면 됩니다.</td></tr>
+          <tr><td><b>내 글꼴 (업로드)</b></td><td>가진 글꼴 파일을 직접 올립니다. <b>웹에 배포해도 되는 라이선스인지</b> 반드시 확인하세요.</td></tr>
+        </table>
+      </div>
+      <p class="tip">글꼴 파일은 결과물에 <b>함께 담겨</b> 나갑니다. 방문자 컴퓨터에 그 글꼴이 없어도 똑같이 보입니다.</p>
+
+      <h3>사이트 배경</h3>
+      <p>페이지 전체 뒤에 깔리는 배경입니다. 이미지 · 영상 · 그라디언트 중에서 고릅니다.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>항목</th><th>결과</th></tr>
+          <tr><td><b>배경 이미지 / 영상</b></td><td>페이지 뒤에 깔립니다. 영상은 <b>첫 화면 그림</b>을 함께 넣어 두면 재생 전에도 빈 화면이 안 보입니다.</td></tr>
+          <tr><td><b>움직임</b></td><td>배경이 고정될지, 스크롤을 따라갈지 정합니다.</td></tr>
+          <tr><td><b>어둡게</b></td><td>배경 위에 검은 막을 덧씌웁니다. <b>글자가 안 읽힐 때 제일 먼저 올릴 값</b>입니다.</td></tr>
+          <tr><td><b>흐림</b> · <b>흑백</b></td><td>배경만 흐리거나 색을 빼서 <b>내용이 앞으로</b> 나오게 합니다.</td></tr>
+          <tr><td><b>아래로 어둡게</b></td><td>위는 밝고 아래로 갈수록 어두워집니다. 아래쪽 글자가 잘 읽힙니다.</td></tr>
+          <tr><td><b>그레인</b></td><td>필름 같은 <b>미세한 입자</b>가 얹힙니다. 배경 이미지가 없어도 켤 수 있습니다.</td></tr>
+        </table>
+      </div>
+
+      <h3>여백과 상자 모양 &mdash; 사이트 전체에 걸립니다</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>항목</th><th>결과</th></tr>
+          <tr><td><b>모서리</b></td><td>모든 칸의 모서리 둥글기 (0&ndash;40px). 0이면 각진 인상, 크면 부드러운 인상.</td></tr>
+          <tr><td><b>영역 간격 (거터)</b></td><td>칸과 칸 사이 틈 (0&ndash;40px). 0으로 두면 칸이 <b>딱 붙어</b> 한 덩어리처럼 보입니다.</td></tr>
+          <tr><td><b>안쪽 여백</b></td><td>칸 테두리와 글 사이 거리 (0&ndash;96px). 넉넉할수록 여유로워 보입니다.</td></tr>
+          <tr><td><b>바깥 여백</b></td><td>화면 좌우 끝과 내용 사이 거리.</td></tr>
+          <tr><td><b>콘텐츠 최대 폭</b></td><td>넓은 화면에서 글이 <b>가로로 너무 길어지지 않게</b> 막습니다. 글줄이 길면 읽기 힘듭니다.</td></tr>
+          <tr><td><b>테두리</b></td><td>칸 둘레 선 두께 (0&ndash;6px).</td></tr>
+          <tr><td><b>그리드 가이드</b></td><td>칸을 맞출 때 참고하는 <b>세로 안내선</b>. 편집 화면에만 보이고 결과물에는 안 나갑니다.</td></tr>
+        </table>
+      </div>
+      <h3>색과 글꼴</h3>
+      <ul>
+        <li><b>배경색(테마)</b> 드롭다운 &mdash; 18종. 고르는 순간 사이트 전체의 색 조합이 한 번에 바뀝니다. 밝은 톤(아이보리 · 세이지 · 크림)부터 진한 톤(네온 · 버건디 · 다크)까지.</li>
+        <li><b>글꼴</b> 드롭다운 &mdash; Inter · Pretendard · Geist 등 10종. 맨 아래 <b>내 글꼴 (업로드)</b>를 고르면 <code>.ttf</code> 파일을 올려 내 글꼴을 쓸 수 있고, 내보내기에도 그대로 담깁니다.</li>
+        <li><b>여백 · 모서리 · 테두리</b> &mdash; 모든 영역에 한 번에 적용되는 전역값. 특정 영역만 다르게 하려면 4단계처럼 그 영역을 선택해 덮어씁니다.</li>
+      </ul>
+
+      <h3>사이트 배경</h3>
+      <ul>
+        <li>사이트 전체 뒤에 <b>이미지나 영상</b>을 깔 수 있습니다. <b>고정</b>을 켜면 스크롤할 때 배경은 제자리에 있어 패럴랙스 느낌이 납니다.</li>
+        <li>배경을 깔면 각 영역은 기본적으로 불투명하게 내용을 지킵니다. 특정 영역만 배경이 <b>비쳐 보이게</b> 하려면 그 영역을 선택해 <b>비침</b> 값을 올리세요.</li>
+      </ul>
+
+    </section>
+
+    <!-- ============ 9. 효과 · 3D ============ -->
+    <section class="panel">
+      <h2>9단계 · 효과와 3D 모델</h2>
+      <p>여기부터는 <b>없어도 되는</b> 단계입니다. 사이트를 더 살아 움직이게 만들고 싶을 때 씁니다.</p>
+
+      <h3>움직임 효과</h3>
+      <ul>
+        <li><b>영역 등장 효과</b> &mdash; 스크롤하면 영역이 떠오르듯 나타납니다. 꾸미기 탭에서 전체 방식을 고르고, 캔버스에서 특정 영역만 <span class="kbd">Shift</span>+클릭하면 그 영역만 켜고 끌 수 있습니다.</li>
+        <li><b>텍스트 효과</b> &mdash; 글자가 뒤섞이며 나타나는 스크램블 등. 영역을 선택하면 편집 패널의 효과 목록에서 고를 수 있습니다.</li>
+        <li><b>인터랙션</b> &mdash; 부드러운 스크롤, 커스텀 커서 등은 스크립트가 필요해서 <b>내보낸 결과물에서만</b> 동작합니다. 편집 화면에 안 보여도 정상입니다.</li>
+      </ul>
+
+      <h3>3D 모델 (GLB)</h3>
+      <div class="card do">
+        <b>따라 하기</b>
+        <ol>
+          <li>영역 하나를 선택하고 파트 목록에서 <b>3D Model</b>을 끼웁니다.</li>
+          <li>편집 패널에서 <b>GLB 파일</b>을 선택해 올립니다. 마우스를 따라 모델이 움직이고, 잡고 돌릴 수도 있습니다.</li>
+          <li>파일이 <b>40MB를 넘으면 자동 압축을 제안</b>합니다 &mdash; 수십 MB짜리가 1~2MB로 줄어드는 경우가 많으니 그대로 진행하면 됩니다.</li>
+          <li>더 사실적인 반사·조명을 원하면 <b>환경광</b> 탭에서 <code>.hdr</code> 파일을 올리거나 안내된 무료 다운로드 링크를 이용합니다 (<code>.exr</code>은 지원되지 않습니다).</li>
+        </ol>
+      </div>
+      <p class="warn"><b>3D는 단일 HTML에 담기지 않습니다.</b> 브라우저 보안 제약 때문에 더블클릭으로 여는 단일 HTML에서는 3D가 빠집니다. 3D를 썼다면 다음 단계에서 <b>폴더 ZIP</b>으로 내보내세요.</p>
+    </section>
+
+    <!-- ============ 6. 내보내기 ============ -->
+    <section class="panel">
+      <h2>10단계 · 내보내기 — 파일로 받기</h2>
+      <p>사이트가 마음에 들면 상단 오른쪽 <b>아래 화살표 아이콘</b>(또는 <span class="ui acc">4 내보내기</span> 탭)을 누릅니다. 아래 창이 열립니다.</p>
+
+      <figure>
+        <img src="./img/export-modal.png" alt="내보내기 창 — 단일 HTML과 폴더 ZIP 선택, 파일 목록, 코드 미리보기" />
+        <figcaption>내보내기 창. 왼쪽에서 방식을 고르고, 오른쪽에서 실제로 나갈 코드를 미리 봅니다.</figcaption>
+      </figure>
+
+      <h3>화면 설명</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>위치</th><th>내용</th></tr>
+          <tr><td><b>왼쪽 위 두 카드</b></td><td>내보내기 방식 선택. <b>단일 HTML</b>은 파일 하나로 나와 더블클릭이면 열립니다. <b>폴더 ZIP</b>은 페이지별 파일로 나뉘어 나오고 배포용입니다.</td></tr>
+          <tr><td><b>영역 테두리 그리기</b></td><td>칸을 나누는 선을 결과물에도 그릴지. <b>끄면</b> 내용만 남아 더 깔끔합니다.</td></tr>
+          <tr><td><b>파일 목록</b></td><td>결과물에 담기는 파일들과 용량. <b>편집 중</b> 표시는 지금 편집하던 페이지입니다. 파일명을 누르면 오른쪽 미리보기가 바뀝니다.</td></tr>
+          <tr><td><b>오른쪽 코드 창</b></td><td>실제로 저장될 코드입니다. 눈으로 확인만 하면 되고, 고칠 필요는 없습니다.</td></tr>
+          <tr><td><b>오른쪽 위 파란 버튼</b></td><td><span class="ui acc">HTML 내려받기</span> 또는 <span class="ui acc">ZIP 내려받기</span> &mdash; 이걸 누르면 다운로드됩니다.</td></tr>
+        </table>
+      </div>
+
+
+      <h3>두 방식, 무엇이 나오나</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>HTML 내려받기</th><th>ZIP 내려받기</th></tr>
+          <tr><td><b>나오는 것</b></td><td><code>.html</code> 파일 <b>한 개</b></td><td>폴더 한 벌 &mdash; <code>index.html</code>, <code>assets/site.css</code>, 글꼴, 사진, <code>README.md</code></td></tr>
+          <tr><td><b>여는 법</b></td><td>더블클릭하면 <b>바로 열립니다</b></td><td>배포하거나 서버로 열어야 제대로 돕니다</td></tr>
+          <tr><td><b>3D 효과</b></td><td><b>빠집니다</b></td><td>포함됩니다</td></tr>
+          <tr><td><b>쓰는 때</b></td><td>남에게 파일 하나로 보내 확인시킬 때</td><td><b>실제 배포용.</b> 대부분 이쪽입니다</td></tr>
+        </table>
+      </div>
+      <p class="warn"><b>3D 모델을 넣었다면 반드시 ZIP</b>입니다. 단일 HTML에는 3D가 들어가지 않습니다 &mdash; 모델 파일을 파일 하나에 욱여넣을 수 없기 때문입니다.</p>
+      <p class="tip"><b>광고나 제휴 링크는 결과물에 절대 들어가지 않습니다.</b> 편집 화면에 보이는 배너는 이 도구를 유지하기 위한 것이고, 여러분이 내려받는 파일에는 여러분이 만든 것만 담깁니다.</p>
+      <h3>무엇으로 받을까?</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>단일 HTML</th><th>폴더 ZIP</th></tr>
+          <tr><td><b>형태</b></td><td>파일 하나</td><td>페이지별 파일 묶음</td></tr>
+          <tr><td><b>여는 법</b></td><td>더블클릭이면 끝</td><td>서버에 올려서 (배포용)</td></tr>
+          <tr><td><b>3D 효과</b></td><td>빠짐</td><td>포함</td></tr>
+          <tr><td><b>추천 용도</b></td><td>과제 제출 · 빠른 확인 · 이메일 첨부</td><td>실제 인터넷 배포</td></tr>
+        </table>
+      </div>
+      <p class="tip"><b>스타일 · 글꼴 · 사진이 전부 함께 담깁니다.</b> 받은 파일만 있으면 인터넷이 없어도, 어떤 컴퓨터에서도 똑같이 보입니다.</p>
+    </section>
+
+    <!-- ============ 7. 배포하기 ============ -->
+    <section class="panel">
+      <h2>11단계 · 무료로 배포하기 — 내 주소 만들기</h2>
+      <p>내보낸 ZIP을 인터넷에 올리면 <b>누구에게나 보낼 수 있는 내 포트폴리오 주소</b>가 생깁니다. 무료로 되는 방법부터 소개합니다.</p>
+
+      <h3>GitHub Pages (무료 · 추천)</h3>
+      <div class="card do">
+        <b>큰 흐름 (자세한 화면별 안내는 아래 링크)</b>
+        <ol>
+          <li>GitHub 계정을 만듭니다 (무료).</li>
+          <li>새 저장소(repository)를 만들고, 내보낸 ZIP의 압축을 풀어 파일들을 올립니다.</li>
+          <li>저장소 설정에서 <b>Pages</b>를 켜면 몇 분 안에 <code>내아이디.github.io/저장소이름</code> 주소가 생깁니다.</li>
+        </ol>
+      </div>
+      <p>화면 캡처와 함께 하나씩 따라 하는 상세 가이드가 준비되어 있습니다:</p>
+      <ul>
+        <li><a href="./deploy-github-pages.html"><b>GitHub Pages로 무료 배포하기 (5분 가이드)</b></a> &mdash; 3D 효과가 안 보일 때 해결법 포함</li>
+        <li><a href="./custom-domain.html"><b>내 도메인(.com) 연결하기</b></a> &mdash; <code>이름.com</code> 같은 나만의 주소를 붙이고 싶을 때 (선택)</li>
+      </ul>
+
+      <h3>고친 다음에는?</h3>
+      <ul>
+        <li>배포한 뒤 내용을 고치면, 빌더에서 <b>다시 내보내서 같은 저장소에 올리면</b> 됩니다. 주소는 그대로 유지됩니다.</li>
+        <li>이력서·자기소개서에 주소를 적어 두면 채용 담당자가 바로 열어 볼 수 있습니다.</li>
+      </ul>
+    </section>
+
+    <!-- ============ 8. 저장 · 팁 ============ -->
+    <section class="panel">
+      <h2>12단계 · 저장 · 불러오기와 마무리 팁</h2>
+      <p>작업은 브라우저에 자동 저장되지만, <b>여러 버전을 보관</b>하거나 <b>다른 컴퓨터로 옮길 때</b>는 상단의 디스크 아이콘을 누릅니다.</p>
+
+      <figure class="mid">
+        <img src="./img/save-modal.png" alt="저장·불러오기 창 — 이 컴퓨터에 저장, 파일로 저장, 파일에서 불러오기" />
+        <figcaption>저장 · 불러오기 창. 버튼 세 개가 각각 다른 용도입니다.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>버튼</th><th>용도</th></tr>
+          <tr><td><b>이 컴퓨터에 저장</b></td><td>이름을 붙여 여러 벌 보관합니다. 빠르지만 <b>이 브라우저에만</b> 남습니다.</td></tr>
+          <tr><td><b>파일로 저장 (.pbproj)</b></td><td>사진까지 한 덩어리 파일로 내려받습니다. USB · 클라우드로 옮기거나 백업할 때.</td></tr>
+          <tr><td><b>파일에서 불러오기</b></td><td>다른 컴퓨터에서 <code>.pbproj</code> 파일을 열어 이어서 작업합니다.</td></tr>
+        </table>
+      </div>
+      <p class="warn"><b>불러오기는 지금 작업을 덮어씁니다.</b> 확인 창이 한 번 뜨고, 실수로 덮었다면 되돌리기로 살릴 수 있습니다.</p>
+
+
+      <h3>세 가지가 각각 무엇을 하나</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>버튼</th><th>실제로 일어나는 일</th><th>주의</th></tr>
+          <tr><td><b>이 컴퓨터에 저장</b></td><td>이름을 붙여 <b>브라우저 안에</b> 여러 벌 보관합니다. 목록에서 &lsquo;이 시점으로&rsquo;를 누르면 그때로 되돌아갑니다.</td><td>이 브라우저에만 남습니다. <b>브라우저 데이터를 지우면 함께 사라집니다.</b></td></tr>
+          <tr><td><b>파일로 저장 (.pbproj)</b></td><td>글 · 설정 · <b>올린 사진까지</b> 한 덩어리 파일로 내려받습니다.</td><td>진짜 백업은 이쪽입니다. USB · 클라우드에 두세요.</td></tr>
+          <tr><td><b>불러오기</b></td><td><code>.pbproj</code>를 열어 이어서 작업합니다. 다른 컴퓨터에서도 그대로 이어집니다.</td><td><b>지금 작업을 덮어씁니다.</b> 확인 창이 한 번 뜨고, 실수해도 <b>Ctrl+Z</b>로 살릴 수 있습니다.</td></tr>
+        </table>
+      </div>
+      <p class="tip"><b>자동 저장은 늘 돌고 있습니다.</b> 상단에 &lsquo;저장됨&rsquo;이라고 보이면 브라우저에 이미 담긴 상태입니다. 위 세 가지는 <b>여러 벌 보관</b>과 <b>컴퓨터 옮기기</b>를 위한 것입니다.</p>
+      <h3>마무리 팁</h3>
+      <ul>
+        <li><b>모바일 확인은 필수</b> &mdash; 채용 담당자의 절반은 폰으로 봅니다. 상단 화면 크기 버튼으로 폰 폭을 꼭 확인하세요.</li>
+        <li><b>다크 모드 버튼은 편집 화면용</b>입니다. 결과물의 색은 꾸미기의 테마가 정합니다.</li>
+        <li><b>자주 파일로 백업</b>하세요. 브라우저 데이터를 지우면 자동 저장본도 사라집니다.</li>
+        <li>막히면 <a href="./index.html">가이드 목록</a>의 다른 글을 참고하세요.</li>
+      </ul>
+
+      <p class="tip"><b>여기까지 왔다면 끝입니다.</b> 이제 <a href="../app.html">빌더를 열고</a> 1단계부터 직접 만들어 보세요.</p>
+    </section>
+
+
+    <!-- ============ 13. 파트 사전 ============ -->
+    <section class="panel">
+      <h2>13단계 · 파트 사전 &mdash; 16종 전부</h2>
+      <p class="lead">각 파트가 <b>무엇이고, 무엇을 고칠 수 있고, 화면에 어떻게 나오는지</b>를 모아 두었습니다. 처음부터 읽지 마시고, 쓸 파트가 생겼을 때 그 줄만 찾아보세요.</p>
+      <p class="tip">파트를 넣는 방법은 어느 파트든 같습니다 &mdash; <b>캔버스에서 칸을 클릭</b>한 다음, 왼쪽 <span class="ui acc">2 내용</span> 탭에서 파트를 <b>클릭</b>하거나 칸으로 <b>끌어다 놓습니다</b>. 넣은 뒤 고칠 항목은 전부 오른쪽 패널에 나옵니다.</p>
+
+      <h3>머리 &mdash; 페이지 맨 위 메뉴</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>파트</th><th>고칠 수 있는 것</th><th>화면에 나오는 모습</th></tr>
+          <tr>
+            <td><b>Top Header</b><br /><code>&lt;div&gt;</code></td>
+            <td>로고 / 이름, 정렬, 메뉴 표시, 다크 모드 토글 버튼, 메뉴가 가리키는 곳, 스크롤 시 상단 고정, 내릴 땐 숨기기, 아래 구분선</td>
+            <td>왼쪽에 이름, 오른쪽에 메뉴가 놓인 <b>가로 띠</b>. 고정을 켜면 스크롤해도 위에 붙어 있고, &lsquo;내릴 땐 숨기기&rsquo;까지 켜면 아래로 내릴 때 사라졌다가 위로 올리면 다시 나타납니다.</td>
+          </tr>
+          <tr>
+            <td><b>Nav</b><br /><code>&lt;nav&gt;</code></td>
+            <td>정렬, 메뉴가 가리키는 곳, 다크 모드 토글, 항목 간격, 대문자, 상단 고정, 내릴 땐 숨기기, 아래 구분선</td>
+            <td>로고 없이 <b>메뉴 항목만</b> 늘어섭니다. 이름을 따로 보여줄 자리가 있을 때 씁니다. &lsquo;대문자&rsquo;를 켜면 <code>ABOUT</code>처럼 전부 대문자로 나옵니다.</td>
+          </tr>
+          <tr>
+            <td><b>Header</b><br /><code>&lt;header&gt;</code></td>
+            <td>로고 / 이름, <b>CTA 버튼</b>, 다크 모드 토글, 정렬, 메뉴 표시, 메뉴가 가리키는 곳, 상단 고정, 내릴 땐 숨기기, 아래 구분선</td>
+            <td>Top Header에 <b>버튼 하나가 더</b> 붙은 형태. 오른쪽 끝 버튼은 연락처로 내려갑니다. &ldquo;채용 문의&rdquo; 같은 한마디를 늘 보이게 두고 싶을 때.</td>
+          </tr>
+        </table>
+      </div>
+      <p class="tip"><b>메뉴가 가리키는 곳</b>은 세 파트에 공통으로 있습니다. 한 페이지 구성이면 <b>같은 문서 안의 위치</b>로 스크롤하고, 여러 페이지 구성이면 <b>다른 파일</b>로 이동합니다. 사이트 구성은 <span class="ui acc">1 틀</span> 탭 맨 위에서 정합니다.</p>
+
+      <h3>본문 &mdash; 실제 내용이 들어가는 칸</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>파트</th><th>고칠 수 있는 것</th><th>화면에 나오는 모습</th></tr>
+          <tr>
+            <td><b>Hero</b><br /><code>&lt;section&gt;</code></td>
+            <td>제목, 부제, 버튼 글자, <b>버튼에 파일 걸기(PDF)</b>, 버튼 모양 / 색 / 글자색 / 모서리 / 크기, 제목 크기, 정렬</td>
+            <td>첫 화면 인사말. <b>큰 제목 + 한 줄 소개 + 버튼</b>. 버튼에 PDF를 걸면 방문자가 누를 때 그 파일이 내려받아집니다 &mdash; 이력서를 여기 겁니다.</td>
+          </tr>
+          <tr>
+            <td><b>Aside</b><br /><code>&lt;aside&gt;</code></td>
+            <td>프로필 사진, 사진 크기, 동그랗게, 이름, 직함, 한 줄 소개, 목차 표시, 목차가 가리키는 곳, <b>스크롤에 고정</b>, 정렬</td>
+            <td>사진 + 이름 + 목차가 세로로 쌓인 <b>옆 기둥</b>. &lsquo;스크롤에 고정&rsquo;을 켜면 본문이 지나가는 동안 제자리에 머뭅니다. 좌측 메뉴 고정 틀과 짝입니다.</td>
+          </tr>
+          <tr>
+            <td><b>Main</b><br /><code>&lt;main&gt;</code></td>
+            <td>이름, 열 수, 간격</td>
+            <td>다른 내용을 <b>여러 열로 감싸는 틀</b>입니다. 자체 글은 없고, 안에 들어갈 것을 몇 열로 나눌지만 정합니다.</td>
+          </tr>
+          <tr>
+            <td><b>Section</b><br /><code>&lt;section&gt;</code></td>
+            <td>제목, 본문, 열 수, 정렬, <b>목록 형태</b>, 이름, 보조 설명</td>
+            <td>제목 + 글. 가장 많이 쓰는 파트입니다. 줄을 나눠 쓰고 <b>목록 형태</b>를 고르면 점 목록 · 번호 · 태그 칩 등으로 바뀝니다 &mdash; 기술 스택을 칩으로 늘어놓을 때 이걸 씁니다.</td>
+          </tr>
+          <tr>
+            <td><b>Gallery</b><br /><code>&lt;section&gt;</code></td>
+            <td>제목 / 카드마다: 썸네일, 제목, 기술 스택, 한 줄 설명, <b>자세히</b>, 링크 / 가로 칸 수, 세로 칸 수, 카드 높이 비율, 썸네일 자리 표시, <b>흑백에서 컬러로(호버)</b></td>
+            <td>작업물 <b>카드 격자</b>. <b>자세히</b>를 적어 두면 카드를 눌렀을 때 설명이 펼쳐집니다 &mdash; 적지 않으면 눌러도 아무 일이 없습니다. &lsquo;흑백에서 컬러로&rsquo;를 켜면 평소엔 흑백이다가 마우스를 올릴 때만 색이 돌아옵니다.</td>
+          </tr>
+        </table>
+      </div>
+
+      <h3>배너 &mdash; 시선을 끄는 큰 띠</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>파트</th><th>고칠 수 있는 것</th><th>화면에 나오는 모습</th></tr>
+          <tr>
+            <td><b>Cover Banner</b></td>
+            <td>배경 이미지, 문구, 작은 문구, 높이, 가로 / 세로 정렬, <b>어둡게</b>, 천천히 확대(켄번즈), 스크롤 따라 확대</td>
+            <td>배경 사진 위에 큰 글씨를 얹은 <b>표지</b>. 사진이 밝아 글자가 안 읽히면 <b>어둡게</b>를 올립니다. &lsquo;천천히 확대&rsquo;를 켜면 사진이 아주 느리게 커지며 살아 있는 느낌을 줍니다.</td>
+          </tr>
+          <tr>
+            <td><b>Marquee Banner</b></td>
+            <td>문구, 사이 기호, 글자 크기, 한 바퀴 시간, 반대 방향, <b>윤곽 글자</b>, 올리면 멈춤</td>
+            <td>큰 글씨가 옆으로 <b>끊임없이 흐르는 띠</b>. 기술 스택이나 키워드를 나열할 때. &lsquo;윤곽 글자&rsquo;를 켜면 속이 빈 테두리 글씨가 되어 배경이 비칩니다.</td>
+          </tr>
+          <tr>
+            <td><b>CTA Banner</b></td>
+            <td>제목, 보조 문구, 버튼 글자, 버튼 주소, <b>또는 파일(PDF)</b>, 버튼 모양 / 색 / 글자색 / 모서리 / 크기, 정렬, <b>배경 그라디언트 흐름</b></td>
+            <td>&ldquo;연락 주세요&rdquo; 같은 <b>행동 유도 구역</b>. 버튼 주소를 비우면 자동으로 연락처로 내려갑니다. 그라디언트 흐름을 켜면 배경색이 아주 느리게 오갑니다.</td>
+          </tr>
+          <tr>
+            <td><b>Slider Banner</b></td>
+            <td>장마다: 문구, 작은 문구, 배경 이미지, 버튼 글자 / 주소 / 전환 방식, 높이, 어둡게, 가로 · 세로 정렬, <b>자동 넘김</b>, 넘김 간격, 전환 시간, 올리면 멈춤, 무한 반복, 점 표시기, 좌우 화살표, 천천히 확대</td>
+            <td>여러 장이 <b>좌우로 넘어가는 배너</b>. 아래 점이나 좌우 화살표로 넘깁니다. <b>자동 넘김은 내보낸 결과물에서만</b> 돕니다 &mdash; 편집 중에 저절로 넘어가면 고칠 수가 없기 때문입니다.</td>
+          </tr>
+        </table>
+      </div>
+
+      <h3>마무리 &mdash; 연락처와 페이지 하단</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>파트</th><th>고칠 수 있는 것</th><th>화면에 나오는 모습</th></tr>
+          <tr>
+            <td><b>Contact</b></td>
+            <td>제목, 안내 문구, 이메일, 전화, 지역, <b>이메일을 크게</b>, 정렬</td>
+            <td>연락처 묶음. 전화와 지역은 <b>비워 두면 아예 안 나옵니다</b>. &lsquo;이메일을 크게&rsquo;를 켜면 주소가 제목만 한 크기로 커집니다.</td>
+          </tr>
+          <tr>
+            <td><b>Links</b></td>
+            <td>항목마다: 이름, 주소, <b>또는 파일(PDF)</b> / 모양, 정렬, 새 탭에서 열기</td>
+            <td>깃허브 · 링크드인 · 블로그 같은 <b>외부 링크 목록</b>. 모양에 따라 글자 줄 · 칩 · 버튼으로 바뀝니다. 주소는 <code>github.com/me</code>처럼 <code>https://</code> 없이 적어도 알아서 링크가 됩니다.</td>
+          </tr>
+          <tr>
+            <td><b>Footer</b><br /><code>&lt;footer&gt;</code></td>
+            <td>문구, 이메일, 메뉴 표시, <b>로컬 타임 표시</b>, 도시 이름, 시간대, 정렬</td>
+            <td>페이지 맨 아래 마무리 줄. 로컬 타임을 켜면 <code>Seoul, 14:32</code>처럼 <b>지금 시각이 실시간으로</b> 표시됩니다 &mdash; 해외 지원에서 시차를 알려 줄 때 좋습니다.</td>
+          </tr>
+        </table>
+      </div>
+
+      <h3>3D</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>파트</th><th>고칠 수 있는 것</th><th>화면에 나오는 모습</th></tr>
+          <tr>
+            <td><b>3D Model</b><br /><code>&lt;div&gt;</code></td>
+            <td><b>.glb 파일 올리기</b> 또는 경로 / URL 직접 입력, 대체 설명, 처음 보이는 각도, 자동 회전 시작까지, 회전 속도, 파일에 담긴 동작 재생, 동작 이름, 돌려보라는 힌트, 끌어서 이동 끄기, AR, 화면 고정 모드, 가로 · 세로 위치</td>
+            <td>방문자가 <b>마우스로 돌려 볼 수 있는 3D 뷰어</b>. 잠시 두면 저절로 회전하기 시작합니다. 파일에 걷기 같은 동작이 들어 있으면 자동 재생됩니다. 모델을 아직 안 올렸으면 그 자리에 <b>파일을 어디서 구하는지 안내</b>가 보입니다.</td>
+          </tr>
+        </table>
+      </div>
+      <p class="warn"><b>3D Model만은 &lsquo;영역 안 자유 배치&rsquo;를 쓸 수 없습니다.</b> 뷰어가 칸 전체를 차지해야 각도와 조명이 어긋나지 않기 때문입니다.</p>
+    </section>
+
+    <!-- ============ 14. 효과 사전 ============ -->
+    <section class="panel">
+      <h2>14단계 · 효과 사전 &mdash; 무엇이 어디에 붙나</h2>
+      <p class="lead">효과는 <b>아무 파트에나 붙지 않습니다.</b> 어울리는 자리에만 붙도록 미리 정해 두었습니다. 아래 표에서 &lsquo;붙는 파트&rsquo;를 먼저 보세요.</p>
+      <p class="tip"><b>붙이는 방법:</b> 왼쪽 <span class="ui acc">3 꾸미기</span> 탭의 효과 카드를 캔버스의 파트 위로 <b>끌어다 놓습니다</b>. 받을 수 있는 파트는 끄는 동안 테두리가 밝아집니다. 뗄 때는 오른쪽 패널의 효과 목록에서 지웁니다.</p>
+
+      <h3>영역에 붙이는 효과 11종</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>효과</th><th>붙는 파트</th><th>화면에 나오는 모습</th></tr>
+          <tr><td><b>스크롤 등장</b></td><td>거의 전 파트</td><td>스크롤해서 그 칸이 보이기 시작할 때 <b>떠오르며 나타납니다</b>. 프리셋 5종(rise · depth · flip · swing · zoom)과 시간 · 지연 · 거리 · 회전 · 시작 배율을 조절합니다.</td></tr>
+          <tr><td><b>실크 배경</b></td><td>Hero · Section · Gallery · Contact · Cover · CTA</td><td>칸 뒤에 <b>비단결처럼 흐르는 무늬</b>가 깔립니다. 마우스 반응을 켜면 커서를 따라 결이 휩니다.</td></tr>
+          <tr><td><b>도트 웨이브</b></td><td>Hero · Section · Gallery · Contact · Cover · CTA</td><td>점 격자가 <b>물결처럼 일렁입니다</b>. 커서 반응을 켜면 마우스 주변이 파문처럼 퍼집니다.</td></tr>
+          <tr><td><b>스포트라이트</b></td><td>Hero · Section · Gallery · Contact · Cover · CTA</td><td>마우스를 따라 <b>둥근 빛무리</b>가 따라다닙니다. 색을 비우면 테마 강조색을 씁니다.</td></tr>
+          <tr><td><b>별하늘 배경</b></td><td>Hero · Section · Gallery · Contact · Cover · CTA</td><td>배경에 <b>별이 깔리고 천천히 흐르며 반짝입니다</b>. 어두운 테마와 잘 맞습니다.</td></tr>
+          <tr><td><b>틸트 카드</b></td><td>Gallery · Main</td><td>카드에 마우스를 올리면 <b>그쪽으로 기울어집니다</b>. 글레어를 켜면 빛이 스치는 반사까지 더해집니다.</td></tr>
+          <tr><td><b>자석 버튼</b></td><td>Hero · Header · Footer · Links · Contact · CTA</td><td>버튼이 <b>마우스를 향해 끌려옵니다</b>. 자력과 반경으로 세기를 정합니다.</td></tr>
+          <tr><td><b>플립 카드</b></td><td>Gallery</td><td>카드가 <b>뒤집혀 뒷면</b>을 보여 줍니다. 호버 · 클릭 · 둘 다 중에서 고릅니다.</td></tr>
+          <tr><td><b>호버 프리뷰</b></td><td>Gallery</td><td>카드에 마우스를 올리면 <b>작은 미리보기 창</b>이 커서 옆에 뜹니다.</td></tr>
+          <tr><td><b>텍스트 스크램블</b></td><td>Hero · Section · Aside · CTA</td><td>글자가 <b>무작위 기호로 지글거리다 제자리를 찾습니다</b>.</td></tr>
+          <tr><td><b>패럴랙스</b></td><td>Hero · Section · Gallery · Cover</td><td>스크롤할 때 배경과 앞의 내용이 <b>서로 다른 속도로 움직여</b> 깊이가 생깁니다.</td></tr>
+        </table>
+      </div>
+      <p class="warn"><b>실크 배경과 도트 웨이브는 함께 켤 수 없습니다.</b> 둘 다 칸 뒤를 채우는 캔버스라 서로를 가립니다. 새로 켠 쪽이 남습니다.</p>
+
+      <h3>글자에 붙이는 효과 8종</h3>
+      <p>파트 편집 항목의 <b>글자 효과</b>에서 고릅니다. 제목에 걸립니다.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>효과</th><th>화면에 나오는 모습</th></tr>
+          <tr><td><b>올라오기</b></td><td>글자가 아래에서 위로 밀려 올라오며 나타납니다.</td></tr>
+          <tr><td><b>흐림</b></td><td>흐릿하던 글자가 또렷해집니다.</td></tr>
+          <tr><td><b>자간 벌리기</b></td><td>좁았던 글자 사이가 벌어지며 자리를 잡습니다.</td></tr>
+          <tr><td><b>밑줄</b></td><td>제목 아래 선이 왼쪽에서 오른쪽으로 그어집니다.</td></tr>
+          <tr><td><b>글리치</b></td><td>글자가 어긋나고 색이 갈라지며 지직거립니다.</td></tr>
+          <tr><td><b>한 글자씩</b></td><td>글자가 하나씩 차례로 나타납니다.</td></tr>
+          <tr><td><b>채우기</b></td><td>윤곽만 있던 글자가 안쪽부터 채워집니다.</td></tr>
+          <tr><td><b>그라디언트</b></td><td>글자에 색이 번져 흐릅니다.</td></tr>
+        </table>
+      </div>
+
+      <h3>사이트 전체에 거는 것</h3>
+      <p><span class="ui acc">3 꾸미기</span> 탭 아래쪽, 개별 칸이 아니라 <b>사이트 전체</b>에 걸립니다.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>항목</th><th>화면에 나오는 모습</th><th>어디서 도나</th></tr>
+          <tr><td><b>등장 효과</b></td><td>모든 칸이 스크롤에 맞춰 차례로 나타납니다. <b>등장 지점</b>으로 얼마나 드러났을 때 시작할지 정합니다.</td><td>편집 화면 · 결과물</td></tr>
+          <tr><td><b>스크롤 진행 바</b></td><td>화면 맨 위에 <b>얼마나 읽었는지</b> 가는 막대로 표시됩니다.</td><td>편집 화면 · 결과물</td></tr>
+          <tr><td><b>섹션 스냅</b></td><td>스크롤을 놓으면 <b>가까운 페이지 경계에 딱 붙습니다</b>. 한 페이지 구성에서만 의미가 있습니다.</td><td>편집 화면 · 결과물</td></tr>
+          <tr><td><b>인트로 로더</b></td><td>사이트가 열릴 때 제목이 뜨고 바가 차오른 뒤 <b>커튼이 걷힙니다</b>. 2.5초 안에 반드시 끝납니다.</td><td>결과물</td></tr>
+          <tr><td><b>부드러운 스크롤</b></td><td>스크롤이 관성을 갖고 미끄러집니다.</td><td><b>결과물에서만</b></td></tr>
+          <tr><td><b>커서 효과</b></td><td>기본 화살표 대신 따라다니는 커서가 붙습니다.</td><td><b>결과물에서만</b></td></tr>
+          <tr><td><b>스크롤 배경 전환</b></td><td>그 칸이 화면을 지나는 동안 <b>페이지 배경색이 물듭니다</b>. 칸마다 색을 정합니다.</td><td>편집 화면 · 결과물</td></tr>
+        </table>
+      </div>
+      <p class="tip"><b>&lsquo;결과물에서만&rsquo;이 왜 있나요?</b> 편집 화면의 캔버스는 안쪽에 따로 떠 있는 화면이라, 스크롤과 커서의 주인이 바깥 편집기입니다. 흉내를 내면 실제 사이트와 어긋나 보이므로 아예 걸지 않습니다. <b>미리보기 버튼</b>이나 내보낸 파일에서 확인하세요.</p>
+
+      <p class="warn"><b>효과는 적을수록 낫습니다.</b> 한 페이지에 서너 개면 충분합니다. 전부 켜면 눈이 어디를 봐야 할지 몰라 정작 작업물이 안 보입니다. 방문자의 기기가 &lsquo;동작 줄이기&rsquo;로 설정돼 있으면 움직임은 자동으로 꺼집니다.</p>
+    </section>
+
+    <div class="step-nav">
+      <button id="prev">&larr; 이전 단계</button>
+      <button id="next" class="next">다음 단계 &rarr;</button>
+    </div>
+
+    <footer>Portfolio Maker 가이드</footer>
+  </div>
+
+  <script>
+    /*
+     * 아직 다시 찍지 못한 화면 캡처는 그림 자리를 통째로 감춥니다.
+     * 깨진 이미지 아이콘이 남는 것보다, 글만 보이는 편이 읽기에 낫습니다.
+     * 캡처를 img/ 에 넣으면 이 처리 없이 그대로 나타납니다.
+     */
+    Array.prototype.forEach.call(document.querySelectorAll('figure img'), function (im) {
+      im.addEventListener('error', function () {
+        var f = im.closest('figure');
+        if (f) f.style.display = 'none';
+      });
+    });
+
+    (function () {
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+      var bar = document.getElementById('bar');
+      var prev = document.getElementById('prev');
+      var next = document.getElementById('next');
+      var cur = 0;
+
+      function show(i, push) {
+        cur = Math.max(0, Math.min(tabs.length - 1, i));
+        tabs.forEach(function (t, k) { t.classList.toggle('on', k === cur); });
+        panels.forEach(function (p, k) { p.classList.toggle('on', k === cur); });
+        bar.style.width = ((cur + 1) / tabs.length * 100) + '%';
+        prev.disabled = cur === 0;
+        next.textContent = cur === tabs.length - 1 ? '처음으로' : '다음 단계 →';
+        tabs[cur].scrollIntoView({ block: 'nearest', inline: 'center' });
+        if (push !== false) history.replaceState(null, '', '#' + (cur + 1));
+        window.scrollTo({ top: 0 });
+      }
+
+      tabs.forEach(function (t, i) { t.addEventListener('click', function () { show(i); }); });
+      prev.addEventListener('click', function () { show(cur - 1); });
+      next.addEventListener('click', function () { show(cur === tabs.length - 1 ? 0 : cur + 1); });
+      window.addEventListener('hashchange', function () {
+        var n = parseInt(location.hash.slice(1), 10);
+        if (n >= 1 && n <= tabs.length) show(n - 1, false);
+      });
+
+      var start = parseInt(location.hash.slice(1), 10);
+      show(start >= 1 && start <= tabs.length ? start - 1 : 0, false);
+    })();
+  </script>
+  <script src="../theme.js"></script>
+</body>
+</html>

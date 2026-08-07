@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>예시 10종 — Portfolio Maker로 만든 포트폴리오 사이트</title>
+  <meta name="description" content="Portfolio Maker로 실제로 만들어 배포한 포트폴리오 사이트 10종입니다. 사진 스튜디오부터 신입 개발자까지 직군별로 어떤 결과물이 나오는지 직접 열어 볼 수 있습니다." />
+  <link rel="canonical" href="https://portfoliomaker.site/samples.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://portfoliomaker.site/samples.html" />
+  <meta property="og:title" content="예시 10종 — Portfolio Maker로 만든 포트폴리오 사이트" />
+  <meta property="og:description" content="이 도구로 실제로 만들어 배포한 결과물 10종. 직접 열어 볼 수 있습니다." />
+  <link rel="stylesheet" href="./theme.css" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('pb:guide-theme');
+        if (t === 'dark' || t === 'eye') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font: 15px/1.8 'Pretendard', -apple-system, 'Segoe UI', 'Malgun Gothic', system-ui, sans-serif;
+      word-break: keep-all; overflow-wrap: anywhere;
+    }
+    main { max-width: 960px; margin: 0 auto; padding: 44px 20px 40px; }
+    .top { display: inline-block; margin-bottom: 24px; font-size: 13px; color: var(--muted); text-decoration: none; }
+    .top:hover { text-decoration: underline; }
+    h1 { font-size: 26px; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .lead { color: var(--muted); font-size: 14px; margin-bottom: 30px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .card { display: flex; flex-direction: column; background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .card:hover { border-color: var(--accent); }
+    .shot { height: 128px; display: grid; place-items: center; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
+    .body { padding: 12px 14px 14px; }
+    .body h2 { font-size: 15px; margin: 0 0 2px; }
+    .kind { font-size: 12.5px; color: var(--muted); }
+    .tags { display: block; margin-top: 5px; font-size: 12px; color: var(--muted); }
+    .acts { display: flex; gap: 6px; margin-top: 11px; }
+    .acts a {
+      flex: 1; padding: 7px 8px; text-align: center;
+      font-size: 12.5px; font-weight: 600; text-decoration: none;
+      background: var(--panel); color: var(--text);
+      border: 1px solid var(--line); border-radius: var(--r, 4px);
+    }
+    .acts a:hover { border-color: var(--accent); }
+    .cta { margin: 34px 0 0; padding: 18px 20px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; }
+    .cta a { display: inline-block; margin-top: 10px; padding: 10px 18px; background: var(--accent); color: #fff; border-radius: var(--r, 4px); text-decoration: none; font-weight: 700; font-size: 14px; }
+    footer { margin-top: 40px; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="top" href="./">&larr; Portfolio Maker로 돌아가기</a>
+    <h1>이 도구로 만든 포트폴리오 10종</h1>
+    <p class="lead">전부 <b>Portfolio Maker로 직접 만들어 실제로 배포한 사이트</b>입니다. 사진처럼 꾸며 둔 예시가 아니라 지금 열리는 주소입니다.</p>
+
+    <div class="grid">
+      <article class="card">
+        <div class="shot" style="background:#0b0b12;color:#fff">스튜디오 녹턴</div>
+        <div class="body">
+          <h2>스튜디오 녹턴</h2>
+          <span class="kind">사진 · 디자인 스튜디오</span>
+          <span class="tags">미드나잇 · 비대칭 밴드 · 3D 카메라</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/01-studio-nocturne/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/01-studio-nocturne/studio-nocturne.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="shot" style="background:#fffbeb;color:#1c2030">아틀리에 모노</div>
+        <div class="body">
+          <h2>아틀리에 모노</h2>
+          <span class="kind">그래픽 · 편집 디자인</span>
+          <span class="tags">크림 · 여러 페이지 · 3D 의자</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/02-atelier-mono/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/02-atelier-mono/atelier-mono.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="shot" style="background:#f5efe8;color:#1c2030">핼시온 랩</div>
+        <div class="body">
+          <h2>핼시온 랩</h2>
+          <span class="kind">인터랙티브 · 제너러티브</span>
+          <span class="tags">모카 · 히어로+4분할 · 3D 현미경</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/03-halcyon-lab/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/03-halcyon-lab/halcyon-lab.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="shot" style="background:#170609;color:#fff">활자밤</div>
+        <div class="body">
+          <h2>활자밤</h2>
+          <span class="kind">독립출판 · 활판인쇄</span>
+          <span class="tags">한 페이지 · 섹션 메뉴 · 3D 영사기</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/04-hwalja-bam/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/04-hwalja-bam/hwalja-bam.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="shot" style="background:#0f172a;color:#fff">타이드 앤 팀버</div>
+        <div class="body">
+          <h2>타이드 앤 팀버</h2>
+          <span class="kind">필드 레코딩 · 사운드 디자인</span>
+          <span class="tags">슬레이트 · 빈 뼈대에서 벤토 · 3D 공중전화</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/05-tide-and-timber/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/05-tide-and-timber/tide-and-timber.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="shot" style="background:#f2f6ec;color:#1c2030">펀 앤 폼</div>
+        <div class="body">
+          <h2>펀 앤 폼</h2>
+          <span class="kind">도예 · 식물 스튜디오</span>
+          <span class="tags">세이지 · 매거진 3단 · 3D 고사리</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/06-fern-and-form/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/06-fern-and-form/fern-and-form.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="shot" style="background:#f0f6ff;color:#1c2030">플럼 앤 피치</div>
+        <div class="body">
+          <h2>플럼 앤 피치</h2>
+          <span class="kind">조향 스튜디오</span>
+          <span class="tags">아틱 · 여러 페이지 · 3D 황동 화병</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/07-plum-and-pitch/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/07-plum-and-pitch/plum-and-pitch.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="shot" style="background:#0a0a0a;color:#fff">밀리세컨드 웍스</div>
+        <div class="body">
+          <h2>밀리세컨드 웍스</h2>
+          <span class="kind">웹 · 앱 개발 스튜디오</span>
+          <span class="tags">카본 · Geist · 지표 중심 사례 · 3D 노트북</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/08-millisecond-works/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/08-millisecond-works/millisecond-works.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="shot" style="background:#051220;color:#fff">퍼스트 커밋</div>
+        <div class="body">
+          <h2>퍼스트 커밋</h2>
+          <span class="kind">신입 프론트엔드 개발자</span>
+          <span class="tags">오션 · 3단 분할 · 막혔던 지점까지 기록</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/09-first-commit/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/09-first-commit/first-commit.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="shot" style="background:#071108;color:#fff">콰이엇 서버</div>
+        <div class="body">
+          <h2>콰이엇 서버</h2>
+          <span class="kind">신입 백엔드 · 안드로이드</span>
+          <span class="tags">포레스트 · 레이어 히어로 · 장애를 일부러 낸 기록</span>
+          <div class="acts">
+            <a href="https://portfoliomaker-samples.github.io/10-quiet-server/" target="_blank" rel="noopener">사이트 열기 ↗</a>
+            <a href="https://portfoliomaker-samples.github.io/10-quiet-server/quiet-server.pbproj" download>프로젝트 파일 ⤓</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <p style="margin-top:16px;font-size:13px;color:var(--muted)">
+      <b>프로젝트 파일(.pbproj)</b>을 받아 편집기의 <b>저장 · 불러오기 → 파일에서 불러오기</b>로 열면,
+      그 예시를 그대로 열어 내 내용으로 고칠 수 있습니다.
+    </p>
+
+    <section class="cta">
+      <b>직접 만들어 보세요</b>
+      <p style="margin-top:4px;font-size:14px;color:var(--muted)">가입 없이 바로 시작합니다. 결과물은 파일로 받아 가시고, 그 파일에는 광고가 들어가지 않습니다.</p>
+      <a href="./app.html">포트폴리오 만들러 가기</a>
+    </section>
+
+    <p style="margin-top:26px;font-size:13.5px;color:var(--muted)">
+      만드는 방법이 궁금하다면 <a href="./guide/how-to.html">단계별 사용 가이드</a>를,
+      만든 뒤 공개하는 방법은 <a href="./guide/deploy-github-pages.html">무료 배포 가이드</a>를 보세요.
+    </p>
+
+    <footer>Portfolio Maker</footer>
+  </main>
+  <script src="./theme.js"></script>
+</body>
+</html>
