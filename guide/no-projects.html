@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>작업물이 없을 때 포트폴리오 만드는 법 — Portfolio Maker</title>
+  <meta name="description" content="보여줄 프로젝트가 없어도 포트폴리오를 만들 수 있습니다. 무엇을 대신 담을지 정리했습니다." />
+  <!--
+    아직 본문을 쓰지 않은 글입니다.
+    빈 글이 검색에 올라가면 "내용 없는 페이지"로 평가돼 사이트 전체에
+    손해입니다. 글을 다 쓰면 아래 robots 줄을 지우고 sitemap.xml에
+    이 주소를 넣으세요. 그 두 가지가 곧 '발행' 버튼입니다.
+  -->
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="../theme.css" />
+  <script>
+    /* 첫 칠 전에 저장된 모드를 입힙니다 — 안 그러면 라이트가 한 번 번쩍입니다. */
+    (function () {
+      try {
+        var t = localStorage.getItem('pb:guide-theme');
+        if (t === 'dark' || t === 'eye') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* 무시 — 기본 라이트 */ }
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font: 15px/1.8 'Pretendard', -apple-system, 'Segoe UI', 'Malgun Gothic', system-ui, sans-serif;
+      word-break: keep-all; overflow-wrap: anywhere;
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 44px 20px 40px; }
+    .top { display: inline-block; margin-bottom: 24px; font-size: 13px; color: var(--muted); text-decoration: none; }
+    .top:hover { text-decoration: underline; }
+    h1 { font-size: 26px; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .lead { color: var(--muted); font-size: 14px; margin-bottom: 26px; }
+    h2 { font-size: 19px; margin: 30px 0 10px; }
+    h3 { font-size: 16px; margin: 20px 0 8px; }
+    p, li { font-size: 15px; }
+    ol, ul { padding-left: 22px; margin: 8px 0 16px; }
+    li { margin-bottom: 6px; }
+    a { color: var(--link); }
+    code { background: var(--inset); padding: 1px 6px; border-radius: 4px; font-size: 13.5px; font-family: Consolas, monospace; }
+    .table-wrap { overflow-x: auto; margin: 12px 0 18px; }
+    table { border-collapse: collapse; width: 100%; background: var(--panel-2); }
+    th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+    th { background: var(--inset); font-size: 13.5px; }
+    .tip { background: var(--panel-2); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 4px; padding: 12px 16px; margin: 16px 0; font-size: 14px; }
+    /* 초안 표시 — 발행할 때 이 블록과 .draft 요소를 지우세요. */
+    .draft {
+      margin: 0 0 26px; padding: 12px 16px;
+      background: var(--danger-bg); border: 1px dashed var(--danger); border-radius: 6px;
+      font-size: 13.5px; color: var(--text);
+    }
+    .todo { color: var(--muted); font-style: italic; }
+    footer { margin-top: 44px; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="top" href="./index.html">&larr; 가이드 목록</a>
+    <h1>작업물이 없을 때 포트폴리오 만드는 법</h1>
+    <p class="lead">"만들 게 없어서 못 만든다"는 분들을 위한 글입니다.</p>
+
+    <p class="draft">
+      <b>초안입니다 &mdash; 아직 발행되지 않았습니다.</b><br />
+      본문을 채운 뒤 ① <code>&lt;meta name="robots" content="noindex"&gt;</code> 줄을 지우고
+      ② <code>sitemap.xml</code>에 이 주소를 넣고 ③ 이 안내 문단을 지우면 발행됩니다.
+    </p>
+
+    <h2>없는 게 아니라 못 알아본 것입니다</h2>
+    <p class="todo">— 수업 과제·팀플·클론 코딩도 재료가 됩니다</p>
+    <p class="todo">— 중요한 건 결과물이 아니라 과정을 어떻게 적느냐</p>
+
+    <h2>지금 가진 것으로 채우는 법</h2>
+    <p class="todo">— 과제 → 요구사항을 어떻게 해석했는지 적으면 프로젝트가 됩니다</p>
+    <p class="todo">— 클론 코딩 → 원본과 다르게 한 결정을 적으면 내 것이 됩니다</p>
+    <p class="todo">— 공부 기록 → 무엇을 왜 골랐는지가 곧 판단력의 증거</p>
+
+    <h2>일주일 안에 만들 수 있는 작은 프로젝트</h2>
+    <p class="todo">— 주제 고르는 기준 — 내가 실제로 불편했던 것</p>
+    <p class="todo">— 규모보다 완성. 배포까지 끝난 작은 것이 미완성 대작을 이깁니다</p>
+
+    <h2>솔직함이 무기가 됩니다</h2>
+    <p class="todo">— "막혔고, 이렇게 풀었고, 아직 이건 모른다"</p>
+    <p class="todo">— 과장은 면접에서 반드시 드러납니다</p>
+
+    <h2>예시</h2>
+    <p class="todo">— 예시 09-first-commit이 이 방식으로 쓰였다는 것을 연결</p>
+
+
+    <h2>더 읽을거리</h2>
+    <ul>
+      <li><a href="./how-to.html">단계별 사용 가이드</a> &mdash; 만드는 방법 전체</li>
+      <li><a href="./deploy-github-pages.html">무료로 배포하기</a> &mdash; 만든 뒤 공개하기</li>
+      <li><a href="../samples.html">예시 보기</a> &mdash; 이 도구로 만든 결과물</li>
+    </ul>
+
+    <footer>Portfolio Maker 가이드</footer>
+  </main>
+  <script src="../theme.js"></script>
+</body>
+</html>

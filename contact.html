@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>문의 — Portfolio Maker</title>
+  <meta name="description" content="Portfolio Maker에 대한 버그 제보 · 기능 제안 · 기타 문의를 받는 곳입니다." />
+  <link rel="stylesheet" href="./theme.css" />
+  <script>
+    /* 첫 칠 전에 저장된 모드를 입힙니다 — 안 그러면 라이트가 한 번 번쩍입니다. */
+    (function () {
+      try {
+        var t = localStorage.getItem('pb:guide-theme');
+        if (t === 'dark' || t === 'eye') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* 무시 — 기본 라이트 */ }
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font: 15px/1.8 'Pretendard', -apple-system, 'Segoe UI', 'Malgun Gothic', system-ui, sans-serif;
+      word-break: keep-all; overflow-wrap: anywhere;
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 48px 20px 40px; }
+    .top { display: inline-block; margin-bottom: 28px; font-size: 13px; color: var(--muted); text-decoration: none; }
+    .top:hover { text-decoration: underline; }
+    h1 { font-size: 26px; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .lead { color: var(--muted); font-size: 13.5px; margin-bottom: 28px; }
+    h2 { font-size: 18px; margin: 30px 0 10px; }
+    p, li, td, th { font-size: 15px; }
+    ol, ul { padding-left: 22px; margin: 8px 0 16px; }
+    li { margin-bottom: 6px; }
+    code { background: var(--inset); padding: 1px 6px; border-radius: 4px; font-size: 13.5px; font-family: Consolas, monospace; }
+    a { color: var(--link); }
+    .table-wrap { overflow-x: auto; margin: 12px 0 18px; }
+    table { border-collapse: collapse; width: 100%; background: var(--panel-2); }
+    th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+    th { background: var(--inset); font-size: 13.5px; }
+    .box {
+      background: var(--panel-2); border: 1px solid var(--line);
+      border-left: 3px solid var(--accent); border-radius: 4px;
+      padding: 12px 16px; margin: 16px 0; font-size: 14px;
+    }
+    .upd { margin-top: 32px; font-size: 12.5px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="top" href="./">&larr; Portfolio Maker로 돌아가기</a>
+    <h1>문의</h1>
+    <p class="lead">버그 제보든 기능 제안이든 환영합니다.</p>
+
+    <h2>이메일</h2>
+    <p style="font-size:19px;font-weight:700;margin:10px 0 18px">
+      <a href="mailto:jwg135790@gmail.com">jwg135790@gmail.com</a>
+    </p>
+    <p>혼자 만들고 운영하고 있어서 답이 며칠 걸릴 수 있습니다. 다만 <b>전부 읽습니다.</b></p>
+
+    <h2>이렇게 적어 주시면 빠릅니다</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>무엇을</th><th>왜 필요한가</th></tr>
+        <tr><td><b>어느 화면에서</b> 생긴 일인지</td><td>편집 화면인지 내보낸 결과물인지에 따라 원인이 완전히 다릅니다</td></tr>
+        <tr><td><b>무엇을 눌렀을 때</b>인지</td><td>같은 상황을 재현해야 고칠 수 있습니다</td></tr>
+        <tr><td>쓰시는 <b>브라우저</b>와 기기</td><td>일부 효과는 브라우저마다 다르게 동작합니다</td></tr>
+        <tr><td>가능하면 <b>화면 사진</b></td><td>글로 설명하기 어려운 것이 대부분입니다</td></tr>
+      </table>
+    </div>
+
+    <div class="box">
+      <b>작업물이 사라졌다는 문의는 도와드릴 수 없습니다.</b><br />
+      작업물은 여러분 브라우저에만 저장되고 저희 서버에는 사본이 없습니다.
+      브라우저 데이터를 지우면 복구할 방법이 없습니다 — 이것만은 미리 알아 두세요.
+      중요한 작업은 <code>.pbproj</code> 파일로 내려받아 보관하시면 안전합니다.
+    </div>
+
+    <h2>먼저 확인해 보시면 좋은 곳</h2>
+    <ul>
+      <li><a href="./guide/how-to.html">단계별 사용 가이드</a> — 기능별 사용법과 결과 화면이 정리돼 있습니다</li>
+      <li><a href="./guide/deploy-github-pages.html">무료 배포 방법</a> — 만든 사이트를 인터넷에 올리는 법</li>
+      <li><a href="./guide/custom-domain.html">내 도메인 연결하기</a></li>
+    </ul>
+
+    <p class="upd">최종 수정일: 2026년 8월 2일</p>
+  </main>
+  <script src="./theme.js"></script>
+</body>
+</html>
